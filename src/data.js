@@ -18,6 +18,12 @@ import UpworkBrandIcon from './assets/img/brands/upwork.png';
 import FiverBrandIcon from './assets/img/brands/fiverr.png';
 import BehanceBrandIcon from './assets/img/brands/behance.png';
 import DribbbleBrandIcon from './assets/img/brands/dribbble.png';
+import AEDC from './assets/img/brands/AEDC.png'
+import EEDC from './assets/img/brands/EEDC.png'
+import IKEDC from './assets/img/brands/IKEDC.png'
+import JED from './assets/img/brands/JED.png'
+import KAEDCO from './assets/img/brands/KAEDCO.png'
+import KEDCO from './assets/img/brands/KEDCO.png'
 
 // projects images
 import Project1 from './assets/img/projects/p1.webp';
@@ -46,28 +52,29 @@ import TestiImage3 from './assets/img/testimonials/testimonial-3.webp';
 export const navigation = [
   {
     name: 'home',
-    href: 'home',
+    href: '/',
+  },
+  {
+    name: 'vendor',
+    href: 'vendor',
   },
   {
     name: 'about',
     href: 'about',
   },
   {
-    name: 'portfolio',
-    href: 'portfolio',
+    name: 'blog',
+    href: 'blog',
   },
   {
-    name: 'services',
-    href: 'services',
+    name: 'login',
+    href: '/login',
   },
   {
-    name: 'testimonials',
-    href: 'testimonials',
+    name: 'signup',
+    href: '/register',
   },
-  {
-    name: 'contact',
-    href: 'contact',
-  },
+  
 ];
 
 // social
@@ -92,24 +99,32 @@ export const social = [
 
 // companies
 export const brands = [
+  
   {
-    img: FreelancerBrandIcon,
+    img: AEDC,
     href: '',
   },
   {
-    img: UpworkBrandIcon,
+    img: EEDC,
+    href: '',
+  },
+
+  {
+    img: IKEDC,
+    href: '',
+  },
+
+  {
+    img: JED,
+    href: '',
+  },
+  
+  {
+    img: KAEDCO,
     href: '',
   },
   {
-    img: FiverBrandIcon,
-    href: '',
-  },
-  {
-    img: BehanceBrandIcon,
-    href: '',
-  },
-  {
-    img: DribbbleBrandIcon,
+    img: KEDCO,
     href: '',
   },
 ];
@@ -196,6 +211,7 @@ export const skills = [
   {
     image: SkillImg8,
   },
+ 
 ];
 
 // services
