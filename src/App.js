@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes,} from 'react-router-dom';
+import { Route, Routes, Redirect} from 'react-router-dom';
 
 // import components
 import Header from './components/Header';
@@ -20,26 +20,35 @@ import DetailsPage from './Pages/BuyLight/DetailsPage';
 import Summary from './Pages/BuyLight/Summary';
 import BorrowLight from './Pages/Borrowlight/BorrowLight';
 import { useGetCurrentUserQuery } from './features/api/apiSlice';
+import Index from './Pages/Transaction/Index';
+import ComingSoon from './Pages/ComingSoon/ComingSoon';
+import Payback from './Pages/Payback/Payback';
+import Paybackamount from './Pages/Payback/Paybackamount';
 
 
 const App = () => {
   //const user = useSelector(state => state.user.value);
  
 
-  const { data, isSuccess } = useGetCurrentUserQuery();
-  localStorage.setItem("user", JSON.stringify(data));
-  //const user = JSON.parse(localStorage.getItem("user"));
+  const { data, isSuccess, isError } = useGetCurrentUserQuery({}, { refetchOnMountOrArgChange: true });
+  console.log("me", data)
 
-  //console.log("my user", user)
+  //localStorage.setItem("user", JSON.stringify(data));
+  
 
   
+  
+
+  
+
+ 
   return (
     <Routes> 
-   
+        
         <Route path='/' element={<Home/>} />
         <Route path='/AuthCodePage' element={<AuthCodePage/>} />
         <Route path='/Login' element={<Login/>} />
-        <Route path='/Dashboard' element={<Dashboard/>} /> 
+        <Route path='/Dashboard' element={ data ?  <Dashboard/> : <Home/>} /> 
         <Route path='/Register' element={<Register/>} />
         <Route path='/RecoverPassword' element={<RecoverPassword/>} />
         <Route path='/VerifyCode' element={<VerifyCode/>} />
@@ -49,6 +58,10 @@ const App = () => {
         <Route path='/DetailsPage' element={<DetailsPage/>} />
         <Route path='/Summary' element={<Summary/>} />
         <Route path='Borrowlight' element={<BorrowLight/>} />
+        <Route path='/Transaction' element={<Index/>} />
+        <Route path='/comingSoon' element={<ComingSoon/>} />
+        <Route path='/Payback' element={<Payback/>} />
+        <Route path='Paybackamount' element={<Paybackamount/>}/>
     </Routes>
   );
 };

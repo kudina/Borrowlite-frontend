@@ -5,8 +5,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://creepy-pear-bear.cyclic.app",
-    tagTypes: ["CurrentUser"],
+    baseUrl: "http://localhost:5000",
+    tagTypes: ["CurrentUser", "AllTransaction"],
     prepareHeaders: (headers) => {
       headers.set(
         "Authorization",
@@ -115,6 +115,24 @@ export const apiSlice = createApi({
       }),
       // invalidatesTags: ["CurrentUser"],
     }),
+     //Transaction endpoint
+    getAllTransactionsByUser: builder.query({
+      query: () => ({
+        url: "/trx/api/v2/gettransactionbyuser",
+      }),
+      //invalidatesTags: ["CurrentUser"],
+      providesTags: ["AllTransaction"],
+    }),
+    paybackAmount: builder.mutation({
+      query: (payload) => ({
+        url: "/trx/api/v2/payback",
+        method: "POST",
+        body: payload,
+      }),
+      // invalidatesTags: ["CurrentUser"],
+    })
+
+
   }),
 });
 
@@ -132,4 +150,6 @@ export const {
   useInitializePaymentMutation,
   useCheckPaymentRefMutation,
   useSignupMutation,
+  useGetAllTransactionsByUserQuery,
+  usePaybackAmountMutation
 } = apiSlice;

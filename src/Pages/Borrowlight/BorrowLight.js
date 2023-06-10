@@ -4,7 +4,8 @@ import { usePaystackPayment } from 'react-paystack';
 import { useSelector,  useDispatch} from 'react-redux';
 import {  useVerifyMeterMutation } from "../../features/api/apiSlice";
 import { Link, useNavigate } from 'react-router-dom';
-
+import { useBuyElectricityMutation, useUpdateWalletMutation, useInitializePaymentMutation, useCheckPaymentRefMutation, useGetCurrentUserQuery } from '../../features/api/apiSlice';
+import Payback from "../Payback/Payback";
 
 
 const BorrowLight = ()=>{
@@ -12,22 +13,25 @@ const BorrowLight = ()=>{
     const [amount, setAmount] = useState("")
     const [meterNumber, setMeterNumber] = useState(54150634027)
     const [disableBtn, setDisableBtn] = useState(false)
-    const user = useSelector(state => state.user.value);
+    //const user = useSelector(state => state.user.value);
     const [error, setError] = useState("")
     const [paymentmode, setPaymentmode] = useState("borrow")
     const [servicecharge, setServicecharge] = useState(100)
     const navigate = useNavigate();
     const [page, setPage] = useState(0)
     const [vendorCode, setVendorCode] = useState("")
+    const { data:result, isSuccess, isError } = useGetCurrentUserQuery({}, { refetchOnMountOrArgChange: true });
+    const [visible, setVisible] = useState(false)
+    const [merror, setMerror] = useState()
+   
+    const borrowedamount = result?.borrowedAmount
+    const user = result
 
    
     const [Verifymeter, data] = useVerifyMeterMutation()
-
-    // time interval
-
     const config = {
         reference: (new Date()).getTime().toString(),
-        email: user.email,
+        email: user?.email,
         amount: amount*100,
        // pk_test_f03073e7ac32abe21bfe6b988f7820ac5d86bdc4
         // publicKey: 'pk_live_55702f338e11ec554999f75824b1764a65172075',
@@ -71,15 +75,21 @@ const BorrowLight = ()=>{
             return setError("payment mode is required")
         }
         
-        
-
         if(amount < 1000){
             return setError("you can not borrow light for less than ₦ 1000")
         }
-       
 
-       
+        if(borrowedamount > 0){
+           setVisible(true)
+          
+            return setMerror(`you can not borrow light at the moment because you still owe the sum of ₦ ${borrowedamount}`)
 
+        }
+        if(amount > 1000){
+            return setError("you can not borrow more than  ₦ 1000 at the momemt")
+        }
+
+        
 
         const payload = {
             meterNumber,
@@ -88,6 +98,8 @@ const BorrowLight = ()=>{
         Verifymeter(payload)
     
       }
+
+      
 
       if(data.status === "fulfilled"){ 
         const mdata = {
@@ -107,45 +119,45 @@ const BorrowLight = ()=>{
             amount,
             meterNumber,
             paymentmode,
-            product_code
-
-            
+            product_code  
         }
-         
-        
-        
-
        })
        
     }
 
+    // const Payback = ()=>{
+    //     initializePayment(onSuccess, onClose)
+    // }
 
-
-    const Details = () =>{
-        return(
-            <div>this is details</div>
-        )
-    }
-
-   
-   
-    
 
     return(
         <Layout
         child={ 
             
                <>
+                {/* <Modal visible={visible} error={error}/> */}
              
-
+                
                 <div className="flex items-center justify-around lg:mt-[15%] mt-[20%] flex-col">
+               
                 <div className="w-full " >
                   <h1 className="font-text text-center text-deepGrey font-semibold">Borrow electricity from Borrowlite</h1>
                   {/*show error */}
-                  <p className="font-text text-red-500 flex justify-center mt-5   text-center">
+                  <div className="mt-4 flex justify-center ">
+                  <p className=" font-text text-red-500 flex justify-center mt-5 text-center lg:w-[25%] w-[100%]">
                       {error}
                   </p>
-                  <div className="mt-4 flex justify-center">
+                  </div>
+                 {
+                    visible ? 
+                  <Payback
+                  merror={merror}
+                  email={user.email}
+                  />
+                     
+                    
+                    : <>
+                     <div className="mt-4 flex justify-center">
                       <input 
                       value={amount}
                       onChange={(e)=>{setAmount(e.target.value)}}
@@ -206,7 +218,9 @@ const BorrowLight = ()=>{
                      
                        
                           </button>
-                  </div>   
+                  </div> 
+                    </>
+                 }  
 
 
 
@@ -255,3 +269,26 @@ const BorrowLight = ()=>{
 }
 
 export default BorrowLight
+
+
+
+
+
+// <>
+// <div className="mt-4 flex justify-center">
+//   <input 
+//   value={amount}
+//   onChange={(e)=>{setAmount(e.target.value)}}
+
+//   placeholder='Enter Amount' type="text" className="lg:w-[25%] w-[100%] ml-5 mr-5 mt-2 p-3 border border-gray-300 rounded-[5px]  h-[55px] focus:outline-none focus:border-gray-400 focus:ring-0" />
+// </div>
+// <div className="mt-4 flex justify-center">
+// <button disabled={disableBtn} 
+// onClick={() => {
+// Payback()
+// }}
+// className=" lg:w-[25%] w-[100%] ml-5 mr-5 bg-accent text-white p-3 rounded-[5px] shadow h-[55px] ">
+//         <span>Pay back</span>
+//       </button>
+//       </div>
+// </>

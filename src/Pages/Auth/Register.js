@@ -5,16 +5,48 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
   const navigate = useNavigate();
-  const [fullName, setFullName] = useState();
-  const [email, setEmail] = useState();
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState();
   const [phoneNumber, setPhoneNumber] = useState();
   const [vendorCode, setVendorCode] = useState("");
   const [feedBack, setFeedBack] = useState("");
   const [userType, setUserType] = useState();
   const [Signup, { isLoading, isError }] = useSignupMutation();
+  const [successFeedback, setSuccessFeedback] = useState("")
 
-  const handlesubmit = async () => {
+  const handlesubmit = async (e) => {
+    const passwordPattern = /^(?=.*[a-zA-Z]){6,10}$/;
+    const emailPattern = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
+    const phonePattern = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
+    setFeedBack("")
+    if(!fullName){
+        return setFeedBack("Full name is required")   
+    }
+
+    if (!emailPattern.test(email)) {
+      setFeedBack("wrong email pattern");
+      return;
+    }
+    if(!phonePattern.test(phoneNumber)){
+      return setFeedBack("Invalide phone number, enter phone number like this 08068077531")
+    }
+
+    if(!userType){
+      return setFeedBack("Please select user type")
+    }
+
+    if(password.length < 6){
+      return setFeedBack("Password requires atleast 6 characters")
+    }
+    if(userType === "vendor"){
+      if(!vendorCode){
+        return setFeedBack("Vendor code is required")
+      }
+    }
+
+ 
+
     const payload = {
       firstName: fullName,
       email,
@@ -23,11 +55,20 @@ const Register = () => {
       vendorCode,
       userType,
     };
+
+    
+    
+    
+    
     const data = await Signup(payload);
     console.log("this is data", data);
 
-    if (data.status === "fulfilled") {
-      navigate("/login");
+    if (data?.data?.msg === "Signup successful") {
+      //set time out
+      setTimeout(() => {
+        navigate("/login");
+      },2000)
+      setSuccessFeedback("Signup successful")
     } else {
       setFeedBack(data?.error?.data?.msg);
     }
@@ -45,14 +86,21 @@ const Register = () => {
           Sign up to get started with Borrowlite.
         </h4>
         <div className="mt-6">
-          {isError ? (
+         
             <div
               className="mb-4 rounded-lg  px-6 py-2 text-base mt-3 text-center text-danger"
               role="alert"
             >
               {feedBack}
             </div>
-          ) : null}
+
+            <div
+              className="mb-4 rounded-lg  px-6 py-2 text-base mt-3 text-center text-success"
+              role="alert"
+            >
+              {successFeedback}
+            </div>
+         
           <div>
             <input
               value={fullName}

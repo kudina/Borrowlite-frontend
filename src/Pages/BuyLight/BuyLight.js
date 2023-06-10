@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Layout from "../../components/Layout";
 import { usePaystackPayment } from "react-paystack";
 import { useSelector, useDispatch } from "react-redux";
-import { useVerifyMeterMutation } from "../../features/api/apiSlice";
+import { useVerifyMeterMutation, useGetCurrentUserQuery } from "../../features/api/apiSlice";
 import { Link, useNavigate } from "react-router-dom";
 
 const BuyLight = () => {
@@ -10,7 +10,7 @@ const BuyLight = () => {
   const [amount, setAmount] = useState("");
   const [meterNumber, setMeterNumber] = useState(54150634027);
   const [disableBtn, setDisableBtn] = useState(false);
-  const user = useSelector((state) => state.user.value);
+  //const user = useSelector((state) => state.user.value);
   const [error, setError] = useState("");
   const [paymentmode, setPaymentmode] = useState();
   const [servicecharge, setServicecharge] = useState(100);
@@ -19,12 +19,15 @@ const BuyLight = () => {
   const [vendorCode, setVendorCode] = useState("");
 
   const [Verifymeter, data] = useVerifyMeterMutation();
+  const { data:result, isSuccess, isError } = useGetCurrentUserQuery({}, { refetchOnMountOrArgChange: true });
+  const user = result
+  
 
   // time interval
 
   const config = {
     reference: new Date().getTime().toString(),
-    email: user.email,
+    email: user?.email,
     amount: amount * 100,
     // pk_test_f03073e7ac32abe21bfe6b988f7820ac5d86bdc4
     // publicKey: 'pk_live_55702f338e11ec554999f75824b1764a65172075',
@@ -46,7 +49,7 @@ const BuyLight = () => {
   };
   const initializePayment = usePaystackPayment(config);
   const balanceerror = () => {
-    if (amount > user.balance) {
+    if (amount > user?.balance) {
       return alert("here");
       setError(
         `"you do not sufficient funds in your account, you need ${
@@ -74,27 +77,33 @@ const BuyLight = () => {
     if (!paymentmode) {
       return setError("payment mode is required");
     }
-    if (
-      paymentmode === "wallet" &&
-      parseInt(amount) > parseInt(user.balance) + parseInt(servicecharge)
-    ) {
+    // if (paymentmode === "wallet" && parseInt(amount) > parseInt(user?.balance) + parseInt(servicecharge)) {
+    //   const requiredFunds = parseInt(amount) + parseInt(servicecharge);
+    //   return setError(
+    //     `You do not have sufficient funds in your account. You need ₦${requiredFunds} in your wallet.`
+    //   );
+    // }
+
+    if(paymentmode === "wallet"){
       const requiredFunds = parseInt(amount) + parseInt(servicecharge);
-      return setError(
-        `You do not have sufficient funds in your account. You need ₦${requiredFunds} in your wallet.`
-      );
+      const balance = user?.balance
+      if(requiredFunds > balance){
+        return setError(`You do not have sufficient funds in your account. You need ₦${requiredFunds} in your wallet.`)
+
+      }
     }
 
     if (amount < 1000) {
       return setError("you can not buy light for less than ₦ 1000");
     }
 
-    if (paymentmode == "vendor" && vendorCode == !user.vendorCode) {
+    if (paymentmode == "vendor" && vendorCode == !user?.vendorCode) {
       return setError("please enter a valid vendor code");
     }
 
     if (
       paymentmode == "vendor" &&
-      parseInt(amount) > parseInt(user.balance) + servicecharge
+      parseInt(amount) > parseInt(user?.balance) + servicecharge
     ) {
       return setError(
         `you do not have sufficient funds in your account, you need  ${
@@ -146,9 +155,11 @@ const BuyLight = () => {
                 Buy electricity from Borrowlite
               </h1>
               {/*show error */}
-              <p className="font-text text-red-500 flex justify-center mt-5   text-center">
-                {error}
-              </p>
+              <div className="mt-4 flex justify-center ">
+                  <p className=" font-text text-red-500 flex justify-center mt-5 text-center lg:w-[25%] w-[100%]">
+                      {error}
+                  </p>
+                  </div>
               <div className="mt-4 flex justify-center">
                 <input
                   value={amount}

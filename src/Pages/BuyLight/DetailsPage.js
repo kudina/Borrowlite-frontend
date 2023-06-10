@@ -4,10 +4,14 @@ import { useLocation} from "react-router-dom";
 import { usePaystackPayment } from 'react-paystack';
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'; 
-import { useBuyElectricityMutation, useUpdateWalletMutation, useInitializePaymentMutation, useCheckPaymentRefMutation } from '../../features/api/apiSlice';
+import { useBuyElectricityMutation, useUpdateWalletMutation, useInitializePaymentMutation, useCheckPaymentRefMutation, useGetCurrentUserQuery } from '../../features/api/apiSlice';
+import { m } from 'framer-motion';
 const DetailsPage = () =>{
     const [searchParams, setSearchParams] = useSearchParams();
     const ref = searchParams.get('reference')
+    const { data:user, isSuccess, isError } = useGetCurrentUserQuery({}, { refetchOnMountOrArgChange: true });
+
+   
    
     
 
@@ -15,7 +19,9 @@ const DetailsPage = () =>{
     const location = useLocation();
     const mmdata = location.state;
     const mdata = JSON.parse(localStorage.getItem("mdata"));
-    const user = JSON.parse(localStorage.getItem("user"));
+    //const user = JSON.parse(localStorage.getItem("user"));
+
+    console.log("this is user", user)
     
    
     const total = parseInt(mdata?.amount) + parseInt(servicecharge)
@@ -27,6 +33,10 @@ const DetailsPage = () =>{
     const [UpdateWallet] = useUpdateWalletMutation()
     const [InitializePayment, result] = useInitializePaymentMutation()
     const [GetRef, checkref] = useCheckPaymentRefMutation()
+    const intrest = parseInt(mdata?.amount * 0.25);
+    const paybackamount = parseInt(mdata?.amount * 0.25)  + total
+
+    console.log("this is payback", paybackamount)
 
 
 
@@ -52,17 +62,11 @@ const DetailsPage = () =>{
    
     }
 
-      const onSuccess = (reference) => {
-        // Implementation for whatever you want to do with reference and after success call.
-        
+      const onSuccess = (reference) => {        
         BuyElectricity(payload)
-       //UpdateWallet({amount})
-        console.log(reference);
-       // navigate('/dashboard')
-
         };
         
-        // you can call this function anything
+       
         const onClose = () => {
         // implementation for  whatever you want to do when the Paystack dialog closed.
         console.log('closed')
@@ -141,6 +145,16 @@ const DetailsPage = () =>{
 
 
     useEffect(()=>{
+      if(user?.authCode){
+        const payload = {
+            amount:mdata?.amount,
+            product_code: mdata?.product_code,
+            meterNumber: mdata?.meterNumber,
+            paymentmode: mdata?.paymentmode,
+            total:total,
+        }
+        BuyElectricity(payload)
+      }else{
         if(checkref?.data?.data?.authorization?.authorization_code){
             const payload = {
                 amount:mdata?.amount,
@@ -152,6 +166,7 @@ const DetailsPage = () =>{
             BuyElectricity(payload)
     
         }
+      }
     },[checkref])
 
     console.log("check",checkref?.data?.data?.authorization?.authorization_code)
@@ -211,10 +226,17 @@ const DetailsPage = () =>{
                    </p>
                     <div className="text-black">₦ {servicecharge}</div>
                 </div>
+                {
+                    mdata.paymentmode === "borrow" ? <div className="flex flex-row justify-between mt-3">
+                    <p className="text-black">Intrest
+                    </p>
+                     <div className="text-black">₦ {intrest}</div>
+                 </div> : null
+                }
                 <div className="flex flex-row justify-between mt-3">
                    <p className="text-black">Total
                    </p>
-                    <div className="text-black">₦ {total}</div>
+                    <div className="text-black"> {mdata.paymentmode ==="borrow" ? <span>₦ {paybackamount}</span> :  <span>₦ {total}</span> }</div>
                 </div>
 
                 <div className="flex flex-row justify-between mt-10">
@@ -229,7 +251,7 @@ const DetailsPage = () =>{
                           data.isLoading  || checkref.isLoading || result.isLoading ? <div className="inline-block h-6 w-6 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">
                           <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Loading...</span>
                           </div>
-                           : <span>Checkout ₦ {total}</span>
+                           :  mdata.paymentmode === "borrow" ?<span>Payback Amount ₦ {paybackamount}</span> : <span> Check ₦ {total} </span>
                       }
                      
             
@@ -247,7 +269,7 @@ const DetailsPage = () =>{
                 mdata?.paymentmode === "borrow" ? <>
                  {
                 user?.authCode ? null :  <p className="flex flex-row justify-between mt-5 text-sm text-center">50 Naira will be charged from your card for card verification but will be returned to your wallet upon verification,
-                by clicking checkout you agree to Borrowlite's  T&C 
+                by clicking checkout you agree to Borrowlite's T&C to pay back the amount {paybackamount } within the next 14 days
               </p>
                }
                 </> : null

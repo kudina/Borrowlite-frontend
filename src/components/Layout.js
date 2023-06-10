@@ -100,7 +100,7 @@ const Layout = ({ child }) => {
               Buy light
             </Link>
             <Link
-              to={"/dashboard"}
+              to={"/comingsoon"}
               className=" group flex items-center text-[0.8rem] pl-[25px] mt-2 hover:bg-orange p-1 hover:text-white"
             >
               <svg
@@ -118,7 +118,7 @@ const Layout = ({ child }) => {
               Buy data
             </Link>
             <Link
-              to={"/dashboard"}
+              to={"/comingsoon"}
               className=" group flex items-center text-[0.8rem] pl-[25px] mt-2 hover:bg-orange p-1 hover:text-white"
             >
               <svg
@@ -136,7 +136,7 @@ const Layout = ({ child }) => {
               Buy airtime
             </Link>
             <Link
-              to={"/dashboard"}
+              to={"/comingsoon"}
               className=" group flex items-center text-[0.8rem] pl-[25px] mt-2 hover:bg-orange p-1 hover:text-white"
             >
               <svg
@@ -154,7 +154,7 @@ const Layout = ({ child }) => {
               Pay for cable
             </Link>
             <Link
-              to={"/"}
+              to={"/transaction"}
               className=" group flex items-center text-[0.8rem] pl-[25px] mt-2 hover:bg-orange p-1 hover:text-white"
             >
               <svg
@@ -194,7 +194,7 @@ const Layout = ({ child }) => {
               Fund wallet
             </Link>
             <Link
-              to={"/login"}
+              to={"/comingsoon"}
               className=" group flex items-center text-[0.8rem] pl-[25px] mt-2 hover:bg-orange p-1 hover:text-white"
             >
               <svg

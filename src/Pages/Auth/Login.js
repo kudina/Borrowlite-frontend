@@ -63,7 +63,7 @@ const Login = () => {
               onChange={(e) => {
                 setPhoneNumber(e.target.value);
               }}
-              placeholder="Phone number"
+              placeholder="Phone number or email"
               type="text"
               className="w-full mt-2 p-3 border border-gray-300 rounded-[5px]  h-[55px] focus:outline-none focus:border-gray-400 focus:ring-0"
             />

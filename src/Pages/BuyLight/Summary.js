@@ -12,6 +12,7 @@ const Summary = () =>{
     const location = useLocation();
     const mdata = location.state;
     const orderId = mdata.data.recharge_id
+    const [servicecharge, setServicecharge] = useState(100)
 
     const [Checkref, data] =  useCheckBuyRefMutation()
 
@@ -32,7 +33,10 @@ const Summary = () =>{
     useEffect(()=>{
     Checkref(payload)  
     },[])
+    const total = parseInt(mdata?.amount) + parseInt(servicecharge)
 
+    const intrest = parseInt(mdata?.amount * 0.25);
+    const paybackamount = parseInt(mdata?.amount * 0.25)  + total
 
    return(
     <Layout
@@ -62,7 +66,7 @@ const Summary = () =>{
             <div className="text-black">{data?.data?.data?.data?.customer_address}</div>
         </div>
         <div className="flex flex-row justify-between mt-3">
-           <p className="text-black">Pay method</p>
+           <p className="text-black">Payment method</p>
             <div className="text-black">{mdata?.paymentmode}</div>
         </div>
         <div className="flex flex-row justify-between mt-3">
@@ -74,6 +78,13 @@ const Summary = () =>{
            </p>
             <div className="text-black">₦ {mdata?.servicecharge}</div>
         </div>
+        {
+                    mdata.paymentmode === "borrow" ? <div className="flex flex-row justify-between mt-3">
+                    <p className="text-black">Intrest
+                    </p>
+                     <div className="text-black">₦ {intrest}</div>
+                 </div> : null
+                }
         <div className="flex flex-row justify-between mt-3">
            <p className="text-black">Token
            </p>
@@ -90,10 +101,10 @@ const Summary = () =>{
             <div className="text-black"> {data?.data?.data?.data?.reference}</div>
         </div>
         <div className="flex flex-row justify-between mt-3">
-           <p className="text-black">Total
-           </p>
-            <div className="text-black">₦ {mdata?.total}</div>
-        </div> 
+                   <p className="text-black">Total
+                   </p>
+                    <div className="text-black"> {mdata?.paymentmode  === "borrow" ? <span>₦ {paybackamount}</span> :  <span>₦ {total}</span> }</div>
+                </div>
 
         {/* <div className="flex flex-row justify-between mt-10">
         <button 
