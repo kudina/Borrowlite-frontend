@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "../../components/Layout";
 import { usePaystackPayment } from "react-paystack";
 import { useSelector, useDispatch } from "react-redux";
@@ -8,7 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 const BuyLight = () => {
   const [product_code, setProduct_code] = useState("");
   const [amount, setAmount] = useState("");
-  const [meterNumber, setMeterNumber] = useState(54150634027);
+  const [meterNumber, setMeterNumber] = useState("");
   const [disableBtn, setDisableBtn] = useState(false);
   //const user = useSelector((state) => state.user.value);
   const [error, setError] = useState("");
@@ -17,10 +17,42 @@ const BuyLight = () => {
   const navigate = useNavigate();
   const [page, setPage] = useState(0);
   const [vendorCode, setVendorCode] = useState("");
+  const [action, setAction] = useState('')
 
-  const [Verifymeter, data] = useVerifyMeterMutation();
+  const [Verifymeter, data=[]] = useVerifyMeterMutation();
   const { data:result, isSuccess, isError } = useGetCurrentUserQuery({}, { refetchOnMountOrArgChange: true });
   const user = result
+
+
+  useEffect(()=>{
+    if(data?.data?.data?.data?.text_status === "VERIFICATION SUCCESSFUL"){
+      const mdata = {
+            data: data.data.data.data,
+            amount,
+            meterNumber,
+            paymentmode,
+            product_code,
+          };
+          localStorage.setItem("mdata", JSON.stringify(mdata));
+      
+          navigate("/detailspage", {
+            state: {
+              data: data.data.data.data,
+              amount,
+              meterNumber,
+              paymentmode,
+              product_code,
+            },
+          });
+    }else{
+      if(data?.data?.data?.data?.text_status === "VERIFICATION FAILED"){
+      setError('Verification failed, if you are sure your meter number is correct, then this could be a network issue, please try again later')
+    }
+  }
+  },[data])
+
+
+
   
 
   // time interval
@@ -30,22 +62,22 @@ const BuyLight = () => {
     email: user?.email,
     amount: amount * 100,
     // pk_test_f03073e7ac32abe21bfe6b988f7820ac5d86bdc4
-    // publicKey: 'pk_live_55702f338e11ec554999f75824b1764a65172075',
-    publicKey: "pk_test_f03073e7ac32abe21bfe6b988f7820ac5d86bdc4",
+    publicKey: 'pk_live_55702f338e11ec554999f75824b1764a65172075',
+    //publicKey: "pk_test_f03073e7ac32abe21bfe6b988f7820ac5d86bdc4",
   };
 
   const onSuccess = (reference) => {
     // Implementation for whatever you want to do with reference and after success call.
     //Getpower()
     //UpdateWallet({amount})
-    console.log(reference);
+
     navigate("/dashboard");
   };
 
   // you can call this function anything
   const onClose = () => {
     // implementation for  whatever you want to do when the Paystack dialog closed.
-    console.log("closed");
+  
   };
   const initializePayment = usePaystackPayment(config);
   const balanceerror = () => {
@@ -97,9 +129,9 @@ const BuyLight = () => {
       return setError("you can not buy light for less than ₦ 1000");
     }
 
-    if (paymentmode == "vendor" && vendorCode == !user?.vendorCode) {
-      return setError("please enter a valid vendor code");
-    }
+    // if (paymentmode == "vendor" && vendorCode == !user?.vendorCode) {
+    //   return setError("please enter a valid vendor code");
+    // }
 
     if (
       paymentmode == "vendor" &&
@@ -119,27 +151,32 @@ const BuyLight = () => {
     Verifymeter(payload);
   };
 
-  if (data.status === "fulfilled") {
-    // console.log("data here",data.data.data.data)
-    const mdata = {
-      data: data.data.data.data,
-      amount,
-      meterNumber,
-      paymentmode,
-      product_code,
-    };
-    localStorage.setItem("mdata", JSON.stringify(mdata));
+ // if (data?.status === "fulfilled") {
+   // setAction(data?.data?.data?.data)
+  //   if(data?.data?.data?.data?.text_status === "VERIFICATION SUCCESSFUL"){
+  //   console.log("data here",data?.data?.data?.data)
+  //   const mdata = {
+  //     data: data.data.data.data,
+  //     amount,
+  //     meterNumber,
+  //     paymentmode,
+  //     product_code,
+  //   };
+  //   localStorage.setItem("mdata", JSON.stringify(mdata));
 
-    navigate("/detailspage", {
-      state: {
-        data: data.data.data.data,
-        amount,
-        meterNumber,
-        paymentmode,
-        product_code,
-      },
-    });
-  }
+  //   navigate("/detailspage", {
+  //     state: {
+  //       data: data.data.data.data,
+  //       amount,
+  //       meterNumber,
+  //       paymentmode,
+  //       product_code,
+  //     },
+  //   });
+  // }else{
+  //   setError('Verification failed')
+  // }
+ // }
 
   const Details = () => {
     return <div>this is details</div>;
@@ -200,7 +237,7 @@ const BuyLight = () => {
                   <option value="aedc_prepaid_custom">AEDC</option>
                   <option value="kedco_prepaid_custom">KEDCO</option>
                   <option value="kedc_prepaid_custom">KEDC</option>
-                  <option value="yedc_prepaid_custom">YEDC</option>
+                  {/* <option value="yedc_prepaid_custom">YEDC</option> */}
                   <option value="jedc_prepaid_custom">JEDC</option>
                   <option value="bedc_prepaid_custom">BEDC</option>
                   <option value="eedc_prepaid_custom">EEDC</option>
@@ -222,7 +259,7 @@ const BuyLight = () => {
                   <option value="vendor">Vendor</option>
                 </select>
               </div>
-              {paymentmode == "vendor" ? (
+              {/* {paymentmode == "vendor" ? (
                 <div className="mt-4 flex justify-center">
                   <input
                     value={vendorCode}
@@ -234,7 +271,7 @@ const BuyLight = () => {
                     className="lg:w-[25%] w-[100%] ml-5 mr-5 mt-2 p-3 border border-gray-300 rounded-[5px]  h-[55px] focus:outline-none focus:border-gray-400 focus:ring-0"
                   />
                 </div>
-              ) : null}
+              ) : null} */}
 
               <div className="mt-4 flex justify-center">
                 <button

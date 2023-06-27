@@ -2,10 +2,11 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 // https://creepy-pear-bear.cyclic.app
 // http://localhost:5000
+//console.log(process.env.REACT_APP_LOCAL_URL)
 export const apiSlice = createApi({
   reducerPath: "api",
-  baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000",
+  baseQuery: fetchBaseQuery({ 
+    baseUrl: `https://creepy-pear-bear.cyclic.app`,
     tagTypes: ["CurrentUser", "AllTransaction"],
     prepareHeaders: (headers) => {
       headers.set(
@@ -130,7 +131,31 @@ export const apiSlice = createApi({
         body: payload,
       }),
       // invalidatesTags: ["CurrentUser"],
-    })
+    }),
+
+    getAnalytics: builder.query({
+      query: () => ({
+        url: "/analytics/api/v2/analytics",
+      }),
+     // providesTags: ["Ana"],
+    }),
+
+    buyairtime: builder.mutation({
+      query: (payload) => ({
+        url: "/airtime/api/v2/airtime",
+        method: "POST",
+        body: payload,
+      }),
+      // invalidatesTags: ["CurrentUser"],
+    }),
+    airtimestatus: builder.mutation({
+      query: (payload) => ({
+        url: "/airtime/api/v2/verifystatus",
+        method: "POST",
+        body: payload,
+      }),
+      // invalidatesTags: ["CurrentUser"],
+    }),
 
 
   }),
@@ -151,5 +176,8 @@ export const {
   useCheckPaymentRefMutation,
   useSignupMutation,
   useGetAllTransactionsByUserQuery,
-  usePaybackAmountMutation
+  usePaybackAmountMutation,
+  useGetAnalyticsQuery,
+  useBuyairtimeMutation,
+  useAirtimestatusMutation
 } = apiSlice;

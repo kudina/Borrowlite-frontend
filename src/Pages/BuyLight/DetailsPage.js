@@ -21,7 +21,7 @@ const DetailsPage = () =>{
     const mdata = JSON.parse(localStorage.getItem("mdata"));
     //const user = JSON.parse(localStorage.getItem("user"));
 
-    console.log("this is user", user)
+
     
    
     const total = parseInt(mdata?.amount) + parseInt(servicecharge)
@@ -36,7 +36,7 @@ const DetailsPage = () =>{
     const intrest = parseInt(mdata?.amount * 0.25);
     const paybackamount = parseInt(mdata?.amount * 0.25)  + total
 
-    console.log("this is payback", paybackamount)
+  
 
 
 
@@ -49,8 +49,8 @@ const DetailsPage = () =>{
         email: user?.email,
         amount: total*100,
        // pk_test_f03073e7ac32abe21bfe6b988f7820ac5d86bdc4
-        // publicKey: 'pk_live_55702f338e11ec554999f75824b1764a65172075',
-        publicKey: 'pk_test_f03073e7ac32abe21bfe6b988f7820ac5d86bdc4',
+         publicKey: 'pk_live_55702f338e11ec554999f75824b1764a65172075',
+       // publicKey: 'pk_test_f03073e7ac32abe21bfe6b988f7820ac5d86bdc4',
       };
       const payload = {
         amount:mdata?.amount,
@@ -145,17 +145,8 @@ const DetailsPage = () =>{
 
 
     useEffect(()=>{
-      if(user?.authCode){
-        const payload = {
-            amount:mdata?.amount,
-            product_code: mdata?.product_code,
-            meterNumber: mdata?.meterNumber,
-            paymentmode: mdata?.paymentmode,
-            total:total,
-        }
-        BuyElectricity(payload)
-      }else{
-        if(checkref?.data?.data?.authorization?.authorization_code){
+      if(mdata?.paymentmode === "borrow" && user?.authCode){
+       
             const payload = {
                 amount:mdata?.amount,
                 product_code: mdata?.product_code,
@@ -163,10 +154,23 @@ const DetailsPage = () =>{
                 paymentmode: mdata?.paymentmode,
                 total:total,
             }
+            
             BuyElectricity(payload)
-    
-        }
-      }
+          }else{
+            if(checkref?.data?.data?.authorization?.authorization_code){
+                const payload = {
+                    amount:mdata?.amount,
+                    product_code: mdata?.product_code,
+                    meterNumber: mdata?.meterNumber,
+                    paymentmode: mdata?.paymentmode,
+                    total:total,
+                }
+                BuyElectricity(payload)
+        
+            }
+          }
+        
+      
     },[checkref])
 
     console.log("check",checkref?.data?.data?.authorization?.authorization_code)

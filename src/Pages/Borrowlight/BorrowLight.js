@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState, useEffect} from "react";
 import Layout from "../../components/Layout";
 import { usePaystackPayment } from 'react-paystack';
 import { useSelector,  useDispatch} from 'react-redux';
@@ -11,7 +11,7 @@ import Payback from "../Payback/Payback";
 const BorrowLight = ()=>{
     const [product_code, setProduct_code] = useState("")
     const [amount, setAmount] = useState("")
-    const [meterNumber, setMeterNumber] = useState(54150634027)
+    const [meterNumber, setMeterNumber] = useState("")
     const [disableBtn, setDisableBtn] = useState(false)
     //const user = useSelector(state => state.user.value);
     const [error, setError] = useState("")
@@ -29,13 +29,48 @@ const BorrowLight = ()=>{
 
    
     const [Verifymeter, data] = useVerifyMeterMutation()
+
+
+
+    useEffect(()=>{
+        if(data?.data?.data?.data?.text_status === "VERIFICATION SUCCESSFUL"){
+          const mdata = {
+                data: data.data.data.data,
+                amount,
+                meterNumber,
+                paymentmode,
+                product_code,
+              };
+              localStorage.setItem("mdata", JSON.stringify(mdata));
+          
+              navigate("/detailspage", {
+                state: {
+                  data: data.data.data.data,
+                  amount,
+                  meterNumber,
+                  paymentmode,
+                  product_code,
+                },
+              });
+        }else{
+          if(data?.data?.data?.data?.text_status === "VERIFICATION FAILED"){
+          setError('Verification failed, if you are sure your meter number is correct, then this could be a network issue, please try again later')
+        }
+      }
+      },[data])
+    
+
+
+
+
+
     const config = {
         reference: (new Date()).getTime().toString(),
         email: user?.email,
         amount: amount*100,
        // pk_test_f03073e7ac32abe21bfe6b988f7820ac5d86bdc4
-        // publicKey: 'pk_live_55702f338e11ec554999f75824b1764a65172075',
-        publicKey: 'pk_test_f03073e7ac32abe21bfe6b988f7820ac5d86bdc4',
+        publicKey: 'pk_live_55702f338e11ec554999f75824b1764a65172075',
+       // publicKey: 'pk_test_f03073e7ac32abe21bfe6b988f7820ac5d86bdc4',
       };
 
 
@@ -101,29 +136,29 @@ const BorrowLight = ()=>{
 
       
 
-      if(data.status === "fulfilled"){ 
-        const mdata = {
-            data: data.data.data.data,
-            amount,
-            meterNumber,
-            paymentmode,
-            product_code
-        }
-       // console.log("data here",data.data.data.data)
-       //localStorage.setItem("mdata",  mdata);
-        localStorage.setItem("mdata", JSON.stringify(mdata));
+    //   if(data.status === "fulfilled"){ 
+    //     const mdata = {
+    //         data: data.data.data.data,
+    //         amount,
+    //         meterNumber,
+    //         paymentmode,
+    //         product_code
+    //     }
+    //    // console.log("data here",data.data.data.data)
+    //    //localStorage.setItem("mdata",  mdata);
+    //     localStorage.setItem("mdata", JSON.stringify(mdata));
 
-       navigate('/detailspage',{
-        state: {
-            data: data.data.data.data,
-            amount,
-            meterNumber,
-            paymentmode,
-            product_code  
-        }
-       })
+    //    navigate('/detailspage',{
+    //     state: {
+    //         data: data.data.data.data,
+    //         amount,
+    //         meterNumber,
+    //         paymentmode,
+    //         product_code  
+    //     }
+    //    })
        
-    }
+    // }
 
     // const Payback = ()=>{
     //     initializePayment(onSuccess, onClose)
@@ -185,7 +220,7 @@ const BorrowLight = ()=>{
                         <option value="aedc_prepaid_custom" >AEDC</option>
                         <option value="kedco_prepaid_custom" >KEDCO</option>
                         <option value="kedc_prepaid_custom" >KEDC</option>
-                        <option value="yedc_prepaid_custom" >YEDC</option>
+                        {/* <option value="yedc_prepaid_custom" >YEDC</option> */}
                         <option value="jedc_prepaid_custom" >JEDC</option>
                         <option value="bedc_prepaid_custom" >BEDC</option>
                         <option value="eedc_prepaid_custom" >EEDC</option>

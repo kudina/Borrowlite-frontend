@@ -21,13 +21,13 @@ const TransactionTable = (props) => {
           }
         );
       };
-  const { data, isLoading } = useGetAllTransactionsByUserQuery({}, { refetchOnMountOrArgChange: true });
-  if(data?.data?.length === 0){
-    console.log("here")
-  }
+  const {  isLoading } = useGetAllTransactionsByUserQuery({}, { refetchOnMountOrArgChange: true });
+
+ 
+  
 
 
-  console.log(data?.data?.length)
+ 
  
 
 
@@ -65,7 +65,7 @@ const TransactionTable = (props) => {
     );
   };
 
-  const newdata = data?.data?.slice(0, props.n);
+  const newdata = props?.data?.slice(0, props.n);
   
 
   return (
@@ -122,7 +122,7 @@ const TransactionTable = (props) => {
               <DoAnimate />
             ) : (
               <>
-                {newdata?.map((item) => {
+                {newdata?.reverse().map((item) => {
                   return (
                     <tr
                       key={item._id}

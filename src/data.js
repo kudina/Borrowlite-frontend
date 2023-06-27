@@ -56,7 +56,7 @@ export const navigation = [
   },
   {
     name: 'vendor',
-    href: 'vendor',
+    href: '/register',
   },
   {
     name: 'about',
@@ -74,6 +74,7 @@ export const navigation = [
     name: 'signup',
     href: '/register',
   },
+  
   
 ];
 

@@ -2,9 +2,12 @@ import Layout from "../../components/Layout";
 import { useGetCurrentUserQuery } from "../../features/api/apiSlice";
 import TransactionTable from "../../components/TransactionTable";
 import { Link } from "react-router-dom";
+import AdminPanel from "../AdminPanel/Index";
 
 const Chart = () => {
   const { data: userData , isLoading} = useGetCurrentUserQuery({}, { refetchOnMountOrArgChange: true });
+
+
  
 
 
@@ -171,7 +174,16 @@ const Chart = () => {
 };
 
 const Dashboard = () => {
-  return <Layout child={<Chart />} />;
+  const { data: userData , isLoading} = useGetCurrentUserQuery({}, { refetchOnMountOrArgChange: true });
+  return (
+  <>
+   {
+      userData?.userType === 'admin'? <AdminPanel/> : <Layout child={<Chart />} />
+    }
+  </>
+   
+  // 
+  );
 };
 
 export default Dashboard;

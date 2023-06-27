@@ -13,7 +13,7 @@ module.exports = {
     container: {
       padding: {
         DEFAULT: '1rem',
-        lg: '3rem',
+        lg: '1rem',
       },
     },
     screens: {

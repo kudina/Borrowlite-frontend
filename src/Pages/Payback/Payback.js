@@ -19,8 +19,8 @@ const Payback = (props) => {
     email: props?.email,
     amount: amount * 100,
     // pk_test_f03073e7ac32abe21bfe6b988f7820ac5d86bdc4
-    // publicKey: 'pk_live_55702f338e11ec554999f75824b1764a65172075',
-    publicKey: "pk_test_f03073e7ac32abe21bfe6b988f7820ac5d86bdc4",
+      publicKey: 'pk_live_55702f338e11ec554999f75824b1764a65172075',
+    //publicKey: "pk_test_f03073e7ac32abe21bfe6b988f7820ac5d86bdc4",
   };
   const [Dopayback, data] = usePaybackAmountMutation()
   console.log("paybackk data", data)

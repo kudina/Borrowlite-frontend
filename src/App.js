@@ -24,6 +24,9 @@ import Index from './Pages/Transaction/Index';
 import ComingSoon from './Pages/ComingSoon/ComingSoon';
 import Payback from './Pages/Payback/Payback';
 import Paybackamount from './Pages/Payback/Paybackamount';
+import Allusers from './Pages/Allusers/Alluser'
+import Airtime from './Pages/Airtime/Airtime';
+import Confirm from './Pages/Airtime/confirm';
 
 
 const App = () => {
@@ -31,7 +34,7 @@ const App = () => {
  
 
   const { data, isSuccess, isError } = useGetCurrentUserQuery({}, { refetchOnMountOrArgChange: true });
-  console.log("me", data)
+ 
 
   //localStorage.setItem("user", JSON.stringify(data));
   
@@ -48,7 +51,7 @@ const App = () => {
         <Route path='/' element={<Home/>} />
         <Route path='/AuthCodePage' element={<AuthCodePage/>} />
         <Route path='/Login' element={<Login/>} />
-        <Route path='/Dashboard' element={ data ?  <Dashboard/> : <Home/>} /> 
+        <Route path='/Dashboard' element={  <Dashboard/> } /> 
         <Route path='/Register' element={<Register/>} />
         <Route path='/RecoverPassword' element={<RecoverPassword/>} />
         <Route path='/VerifyCode' element={<VerifyCode/>} />
@@ -62,6 +65,9 @@ const App = () => {
         <Route path='/comingSoon' element={<ComingSoon/>} />
         <Route path='/Payback' element={<Payback/>} />
         <Route path='Paybackamount' element={<Paybackamount/>}/>
+        <Route path="/allUsers" element={<Allusers />}/>
+        <Route path="/airtime" element={<Airtime />} />
+        <Route path="Confirm" element={<Confirm />} />
     </Routes>
   );
 };
