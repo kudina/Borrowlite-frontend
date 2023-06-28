@@ -11,41 +11,43 @@ const Register = () => {
   const [phoneNumber, setPhoneNumber] = useState();
   const [vendorCode, setVendorCode] = useState("");
   const [feedBack, setFeedBack] = useState("");
-  const [userType, setUserType] = useState();
+  const [userType, setUserType] = useState(null);
+  const [openUserType, setOpenUserType] = useState(false);
   const [Signup, { isLoading, isError }] = useSignupMutation();
-  const [successFeedback, setSuccessFeedback] = useState("")
+  const [successFeedback, setSuccessFeedback] = useState("");
 
   const handlesubmit = async (e) => {
     const passwordPattern = /^(?=.*[a-zA-Z]){6,10}$/;
     const emailPattern = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
-    const phonePattern = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
-    setFeedBack("")
-    if(!fullName){
-        return setFeedBack("Full name is required")   
+    const phonePattern =
+      /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+    setFeedBack("");
+    if (!fullName) {
+      return setFeedBack("Full name is required");
     }
 
     if (!emailPattern.test(email)) {
       setFeedBack("wrong email pattern");
       return;
     }
-    if(!phonePattern.test(phoneNumber)){
-      return setFeedBack("Invalide phone number, enter phone number like this 08068077531")
+    if (!phonePattern.test(phoneNumber)) {
+      return setFeedBack(
+        "Invalide phone number, enter phone number like this 08068077531"
+      );
     }
 
-    if(!userType){
-      return setFeedBack("Please select user type")
+    if (!userType) {
+      return setFeedBack("Please select user type");
     }
 
-    if(password.length < 6){
-      return setFeedBack("Password requires atleast 6 characters")
+    if (password.length < 6) {
+      return setFeedBack("Password requires atleast 6 characters");
     }
-    if(userType === "vendor"){
-      if(!vendorCode){
-        return setFeedBack("Vendor code is required")
+    if (userType === "vendor") {
+      if (!vendorCode) {
+        return setFeedBack("Vendor code is required");
       }
     }
-
- 
 
     const payload = {
       firstName: fullName,
@@ -56,10 +58,6 @@ const Register = () => {
       userType,
     };
 
-    
-    
-    
-    
     const data = await Signup(payload);
     console.log("this is data", data);
 
@@ -67,8 +65,8 @@ const Register = () => {
       //set time out
       setTimeout(() => {
         navigate("/login");
-      },2000)
-      setSuccessFeedback("Signup successful")
+      }, 2000);
+      setSuccessFeedback("Signup successful");
     } else {
       setFeedBack(data?.error?.data?.msg);
     }
@@ -86,21 +84,20 @@ const Register = () => {
           Sign up to get started with Borrowlite.
         </h4>
         <div className="mt-6">
-         
-            <div
-              className="mb-4 rounded-lg  px-6 py-2 text-base mt-3 text-center text-danger"
-              role="alert"
-            >
-              {feedBack}
-            </div>
+          <div
+            className="mb-4 rounded-lg  px-6 py-2 text-base mt-3 text-center text-danger"
+            role="alert"
+          >
+            {feedBack}
+          </div>
 
-            <div
-              className="mb-4 rounded-lg  px-6 py-2 text-base mt-3 text-center text-success"
-              role="alert"
-            >
-              {successFeedback}
-            </div>
-         
+          <div
+            className="mb-4 rounded-lg  px-6 py-2 text-base mt-3 text-center text-success"
+            role="alert"
+          >
+            {successFeedback}
+          </div>
+
           <div>
             <input
               value={fullName}
@@ -135,19 +132,42 @@ const Register = () => {
             />
           </div>
 
-          <div className="mt-2 flex justify-center">
-            <select
-              value={userType}
-              name="userType"
-              onChange={(e) => setUserType(e.target.value)}
-              className="w-full mt-2 p-3 border border-gray-300 rounded-[5px] h-[55px] focus:outline-none focus:border-gray-400 focus:ring-0"
+          <div className="mt-4 relative">
+            <div
+              className="w-full mt-2 p-3 border border-gray-300 rounded-[5px] h-[55px] focus:outline-none focus:border-gray-400 focus:ring-0 flex justify-between items-center "
+              onClick={() => setOpenUserType(!openUserType)}
             >
-              <option disabled selected>
-                Select your user Type
-              </option>
-              <option value="user">Customer</option>
-              <option value="vendor">Vendor</option>
-            </select>
+              <span>
+                {userType !== null ? userType : "Select your user type"}
+              </span>{" "}
+              <img
+                src="/assets/images/arrowDown.png"
+                alt=""
+                className={`h-[5px] w-[8px] ${openUserType && "rotate-180"}`}
+              />
+            </div>
+            <ul
+              className={`my-[5px] border-[1px] border-[#D9D9D9] rounded-[2px] drop-shadow  absolute w-full z-[1] ${
+                !openUserType && "hidden "
+              }`}
+            >
+              {["Customer", "Vendor"].map((type) => (
+                <li
+                  key={type}
+                  className={`w-full border-y-[1px] border-y-white p-[5px]  hover:bg-accent hover:text-white  ${
+                    userType === type
+                      ? "bg-accent text-white"
+                      : "bg-white text-[#717579]"
+                  }`}
+                  onClick={() => {
+                    setUserType(type);
+                    setOpenUserType(false);
+                  }}
+                >
+                  {type}
+                </li>
+              ))}
+            </ul>
           </div>
 
           {userType === "vendor" ? (

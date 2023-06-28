@@ -4,32 +4,27 @@ import { useGetAllTransactionsByUserQuery } from "../../src/features/api/apiSlic
 import moment from "moment";
 
 const TransactionTable = (props) => {
-    const [copied, setCopied] = useState(false)
-    const copyToClipboard = (item) => {
-        navigator.clipboard.writeText(item.token).then(
-          () => {
-            setCopied(true);
-            // changing back to default state after 2 seconds.
-           alert("Token Copied to clipboard")
-          
-            setTimeout(() => {
-              setCopied(false);
-            }, 2000);
-          },
-          (err) => {
-            console.log("failed to copy", err.mesage);
-          }
-        );
-      };
-  const {  isLoading } = useGetAllTransactionsByUserQuery({}, { refetchOnMountOrArgChange: true });
+  const [copied, setCopied] = useState(false);
+  const copyToClipboard = (item) => {
+    navigator.clipboard.writeText(item.token).then(
+      () => {
+        setCopied(true);
+        // changing back to default state after 2 seconds.
+        alert("Token Copied to clipboard");
 
- 
-  
-
-
- 
- 
-
+        setTimeout(() => {
+          setCopied(false);
+        }, 2000);
+      },
+      (err) => {
+        console.log("failed to copy", err.mesage);
+      }
+    );
+  };
+  const { isLoading } = useGetAllTransactionsByUserQuery(
+    {},
+    { refetchOnMountOrArgChange: true }
+  );
 
   const DoAnimate = () => {
     return (
@@ -66,28 +61,27 @@ const TransactionTable = (props) => {
   };
 
   const newdata = props?.data?.slice(0, props.n);
-  
 
   return (
-    <>
+    <div className="w-screen">
       <div className="flex  flex-row justify-between">
         <p className="font-text font-semibold text-[14px] text-deepGrey ml-[65px] mr-10 mt-10 ">
-       {
-        props.showAll ? <span>   Recent electricity Transactions</span> : <span> All electricity Transactions</span>
-       }
+          {props.showAll ? (
+            <span> Recent electricity Transactions</span>
+          ) : (
+            <span> All electricity Transactions</span>
+          )}
         </p>
-        {
-            props.showAll ? <Link
-            to="/transaction"
-            >
-            <p className="font-text font-semibold text-[12px] text-deepGrey ml-10 mr-10 mt-10">
-            View all
-          </p>
-            </Link> : null
-        }
+        {props.showAll ? (
+          <Link to="/transaction">
+            <p className="font-text font-semibold text-[12px] text-deepGrey ml-10 mr-10 mt-10 w-[3rem]">
+              View all
+            </p>
+          </Link>
+        ) : null}
       </div>
 
-      <div className="ml-10   mr-10 mt-3 mb-20 overflow-x-auto shadow-md sm:rounded-lg bg-white ">
+      <div className="mx-10 mt-3 mb-20 overflow-x-auto shadow-md sm:rounded-lg bg-white w-[calc(100% - 10)]">
         <table className="w-full  text-sm text-left text-gray-500 dark:text-gray-400 ">
           <thead className="text-xs text-gray-700 uppercase dark:text-gray-400">
             <tr>
@@ -135,7 +129,17 @@ const TransactionTable = (props) => {
                         {item.meter_name}
                       </th>
                       <td className="px-6 py-4">{item.meter_number}</td>
-                      <td className="px-6 py-4 flex ">{item.token} <div className="ml-5" onClick={()=>{copyToClipboard(item)}}>Copy token</div></td>
+                      <td className="px-6 py-4 flex ">
+                        {item.token}{" "}
+                        <div
+                          className="ml-5"
+                          onClick={() => {
+                            copyToClipboard(item);
+                          }}
+                        >
+                          Copy token
+                        </div>
+                      </td>
                       <td className="px-6 py-4">{item.units}</td>
                       <td className="px-6 py-4">₦ {item.amount}</td>
                       <td className="px-6 py-4">{item.paymentmode}</td>
@@ -150,11 +154,11 @@ const TransactionTable = (props) => {
             )}
           </tbody>
         </table>
-       {
-        newdata?.length === 0 ?  <div className="flex justify-center mt-10 mb-10">No Data Found</div> : null
-       }
+        {newdata?.length === 0 ? (
+          <div className="flex justify-center mt-10 mb-10">No Data Found</div>
+        ) : null}
       </div>
-    </>
+    </div>
   );
 };
 

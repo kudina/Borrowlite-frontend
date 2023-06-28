@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/img/logo.png";
 import { useGetCurrentUserQuery } from "../features/api/apiSlice";
@@ -7,7 +7,8 @@ const Layout = ({ child }) => {
   const date = new Date();
   const year = date.getFullYear();
   const navigate = useNavigate();
-  const [showMenu, setShowMenu] = useState(true);
+  const [showMenu, setShowMenu] = useState(false);
+  const menuRef = useRef();
 
   const { data: userData } = useGetCurrentUserQuery();
 
@@ -18,22 +19,39 @@ const Layout = ({ child }) => {
     navigate("/");
   };
 
+  useEffect(() => {
+    const checkIfClickedOutside = (e) => {
+      if (showMenu && menuRef.current && !menuRef.current.contains(e.target)) {
+        setShowMenu(false);
+      }
+    };
+    document.addEventListener("mousedown", checkIfClickedOutside);
+    return () => {
+      document.removeEventListener("mousedown", checkIfClickedOutside);
+    };
+  }, [showMenu, menuRef]);
+
   return (
     <div
       className={
         showMenu
-          ? " min-h-screen bg-grey grid grid-cols-12 transition-all ease-in-out duration-300"
+          ? " min-h-screen bg-grey grid grid-cols-13 md:grid-cols-12 transition-all ease-in-out duration-300"
           : " min-h-screen bg-grey grid grid-cols-13 transition-all ease-in-out duration-300"
       }
     >
       <div
         className={
           showMenu
-            ? "w-[100%] bg-white border-r-[0.2px] border-deepGrey border-opacity-5 relative "
+            ? "w-[0] md:w-[100%] bg-white border-r-[0.2px] border-deepGrey border-opacity-5 relative "
             : "w-0 bg-white border-r-[0.2px] border-deepGrey border-opacity-5 relative invisible"
         }
       >
-        <div className={showMenu ? " fixed " : "block"}>
+        <div
+          ref={menuRef}
+          className={`fixed  md:block bg-white z-20 h-full  md:transform-[none] transition-all ease-in-out duration-300 ${
+            !showMenu && "transform translate-x-[-100%]"
+          }`}
+        >
           <div className="h-[3rem] w-[10rem] bg-grey flex items-center justify-center">
             <Link
               to={"/"}
@@ -135,7 +153,7 @@ const Layout = ({ child }) => {
               </svg>
               Buy data
             </Link>
-            
+
             <Link
               to={"/comingsoon"}
               className=" group flex items-center text-[0.8rem] pl-[25px] mt-2 hover:bg-orange p-1 hover:text-white"
