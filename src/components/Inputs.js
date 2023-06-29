@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export const InputSelect = ({
   pOnclick,
@@ -47,5 +48,50 @@ export const InputSelect = ({
         ))}
       </ul>
     </div>
+  );
+};
+
+export const MenuSub = ({
+  pOnclick,
+  cOnclick,
+  childList,
+  img,
+  name,
+  openChild,
+}) => {
+  return (
+    <>
+      <div
+        className="group flex items-center text-[0.8rem] pl-[25px] mt-2 hover:bg-accent p-1 hover:text-white"
+        onClick={pOnclick}
+      >
+        {img}
+        {name}
+        <svg
+          className="w-[10px] h-[10px] ml-2 fill-current group-hover:fill-white"
+          viewBox="0 0 30 20"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M3.525 0L15 12.3617L26.475 0L30 3.80567L15 20L0 3.80567L3.525 0Z" />
+        </svg>
+      </div>
+
+      <ul className={`flex flex-col ml-[30px] ${!openChild && "hidden"}`}>
+        {childList.map((child) => {
+          return (
+            <Link
+              key={child.name}
+              to={child.link}
+              onClick={cOnclick}
+              className="text-textGrey  text-[12px] p-[5px] hover:text-white hover:bg-accent pl-[20px] rounded-[1px] mr-[10px]"
+            >
+              {" "}
+              {child.name}
+            </Link>
+          );
+        })}
+      </ul>
+    </>
   );
 };
