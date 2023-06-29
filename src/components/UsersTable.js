@@ -2,39 +2,42 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useGetAllTransactionsByUserQuery } from "../../src/features/api/apiSlice";
 import moment from "moment";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const UsersTable = (props) => {
-    const location = useLocation();
-    const data = location.state;
-    console.log("all user", data);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const data = location.state;
+  console.log("all user", data);
 
-    const [copied, setCopied] = useState(false)
-    const copyToClipboard = (item) => {
-        navigator.clipboard.writeText(item.token).then(
-          () => {
-            setCopied(true);
-            // changing back to default state after 2 seconds.
-           alert("Token Copied to clipboard")
-          
-            setTimeout(() => {
-              setCopied(false);
-            }, 2000);
-          },
-          (err) => {
-            console.log("failed to copy", err.mesage);
-          }
-        );
-      };
-   const {  isLoading } = useGetAllTransactionsByUserQuery({}, { refetchOnMountOrArgChange: true });
+  const [copied, setCopied] = useState(false);
+  const copyToClipboard = (item) => {
+    navigator.clipboard.writeText(item.token).then(
+      () => {
+        setCopied(true);
+        // changing back to default state after 2 seconds.
+        alert("Token Copied to clipboard");
 
-  
-  
+        setTimeout(() => {
+          setCopied(false);
+        }, 2000);
+      },
+      (err) => {
+        console.log("failed to copy", err.mesage);
+      }
+    );
+  };
+  const { isLoading, error, isError } = useGetAllTransactionsByUserQuery(
+    {},
+    { refetchOnMountOrArgChange: true }
+  );
 
-
- 
- 
-
+  useEffect(() => {
+    if (isError && error?.status === 401) {
+      navigate("/");
+      console.log(error);
+    }
+  }, [isError, error]);
 
   const DoAnimate = () => {
     return (
@@ -71,25 +74,24 @@ const UsersTable = (props) => {
   };
 
   const newdata = data?.slice(0, props.n);
-  
 
   return (
     <>
       <div className="flex  flex-row justify-between">
         <p className="font-text font-semibold text-[14px] text-deepGrey ml-[65px] mr-10 mt-10 ">
-       {
-        props.showAll ? <span>   Recent electricity Transactions</span> : <span> Users</span>
-       }
+          {props.showAll ? (
+            <span> Recent electricity Transactions</span>
+          ) : (
+            <span> Users</span>
+          )}
         </p>
-        {
-            props.showAll ? <Link
-            to="/transaction"
-            >
+        {props.showAll ? (
+          <Link to="/transaction">
             <p className="font-text font-semibold text-[12px] text-deepGrey ml-10 mr-10 mt-10">
-            View all
-          </p>
-            </Link> : null
-        }
+              View all
+            </p>
+          </Link>
+        ) : null}
       </div>
 
       <div className="ml-10   mr-10 mt-3 mb-20 overflow-x-auto shadow-md sm:rounded-lg bg-white ">
@@ -155,9 +157,9 @@ const UsersTable = (props) => {
             )}
           </tbody>
         </table>
-       {
-        newdata?.length === 0 ?  <div className="flex justify-center mt-10 mb-10">No Data Found</div> : null
-       }
+        {newdata?.length === 0 ? (
+          <div className="flex justify-center mt-10 mb-10">No Data Found</div>
+        ) : null}
       </div>
     </>
   );

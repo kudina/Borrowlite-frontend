@@ -10,7 +10,7 @@ const Layout = ({ child }) => {
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef();
 
-  const { data: userData } = useGetCurrentUserQuery();
+  const { data: userData, error, isError } = useGetCurrentUserQuery();
 
   const firstName = userData?.firstName;
 
@@ -18,6 +18,13 @@ const Layout = ({ child }) => {
     localStorage.removeItem("accessToken");
     navigate("/");
   };
+
+  useEffect(() => {
+    if (isError && error?.status === 401) {
+      navigate("/");
+      console.log(error);
+    }
+  }, [isError, error]);
 
   useEffect(() => {
     const checkIfClickedOutside = (e) => {
@@ -256,7 +263,7 @@ const Layout = ({ child }) => {
           </div>
         </div>
       </div>
-      <div className="w-[100%] ">
+      <div className="w-[100%]">
         <nav className="flex justify-between items-center bg-barGrey h-[3rem]">
           <div className="flex justify-between items-center">
             <img

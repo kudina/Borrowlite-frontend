@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Header from "../../components/Header";
 import { useSignupMutation } from "../../features/api/apiSlice";
 import { Link, useNavigate } from "react-router-dom";
+import { InputSelect } from "../../components/Inputs";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ const Register = () => {
   const [vendorCode, setVendorCode] = useState("");
   const [feedBack, setFeedBack] = useState("");
   const [userType, setUserType] = useState(null);
+  const [userTypeDisplay, setUserTypeDisplay] = useState(null);
   const [openUserType, setOpenUserType] = useState(false);
   const [Signup, { isLoading, isError }] = useSignupMutation();
   const [successFeedback, setSuccessFeedback] = useState("");
@@ -132,43 +134,23 @@ const Register = () => {
             />
           </div>
 
-          <div className="mt-4 relative">
-            <div
-              className="w-full mt-2 p-3 border border-gray-300 rounded-[5px] h-[55px] focus:outline-none focus:border-gray-400 focus:ring-0 flex justify-between items-center "
-              onClick={() => setOpenUserType(!openUserType)}
-            >
-              <span>
-                {userType !== null ? userType : "Select your user type"}
-              </span>{" "}
-              <img
-                src="/assets/images/arrowDown.png"
-                alt=""
-                className={`h-[5px] w-[8px] ${openUserType && "rotate-180"}`}
-              />
-            </div>
-            <ul
-              className={`my-[5px] border-[1px] border-[#D9D9D9] rounded-[2px] drop-shadow  absolute w-full z-[1] ${
-                !openUserType && "hidden "
-              }`}
-            >
-              {["Customer", "Vendor"].map((type) => (
-                <li
-                  key={type}
-                  className={`w-full border-y-[1px] border-y-white p-[5px]  hover:bg-accent hover:text-white  ${
-                    userType === type
-                      ? "bg-accent text-white"
-                      : "bg-white text-[#717579]"
-                  }`}
-                  onClick={() => {
-                    setUserType(type);
-                    setOpenUserType(false);
-                  }}
-                >
-                  {type}
-                </li>
-              ))}
-            </ul>
-          </div>
+          <InputSelect
+            width="100%"
+            pOnclick={() => setOpenUserType(!openUserType)}
+            cOnclick={(type) => {
+              setUserType(type.value);
+              setUserTypeDisplay(type.name);
+              setOpenUserType(false);
+            }}
+            open={openUserType}
+            value={userType}
+            fValue="Select your user type"
+            dValue={userTypeDisplay}
+            cList={[
+              { value: "Customer", name: "Customer" },
+              { value: "Vendor", name: "Vandor" },
+            ]}
+          />
 
           {userType === "vendor" ? (
             <div className="mt-2">

@@ -1,22 +1,30 @@
-import Layout from "../../components/Layout"
-import TransactionTable from "../../components/TransactionTable"
-import UsersTable from "../../components/UsersTable"
-import { useGetAnalyticsQuery } from "../../features/api/apiSlice"
-const Allusers = () =>{
-    const {data:analytics, isLoading:loadanalytics } = useGetAnalyticsQuery({}, { refetchOnMountOrArgChange: true })
-    
-    return(
-        <Layout
-        child={
-            <UsersTable
-            showAll={false}
-            data={analytics?.allTransaction}
-            />
-        }>
+import { useEffect } from "react";
+import Layout from "../../components/Layout";
+import TransactionTable from "../../components/TransactionTable";
+import UsersTable from "../../components/UsersTable";
+import { useGetAnalyticsQuery } from "../../features/api/apiSlice";
+import { useNavigate } from "react-router-dom";
+const Allusers = () => {
+  const navigate = useNavigate();
+  const {
+    data: analytics,
+    isLoading: loadanalytics,
+    isError,
+    error,
+  } = useGetAnalyticsQuery({}, { refetchOnMountOrArgChange: true });
 
-        </Layout>
-    )
-   
-}
+  useEffect(() => {
+    if (isError && error?.status === 401) {
+      navigate("/");
+      console.log(error);
+    }
+  }, [isError, error]);
 
-export default Allusers
+  return (
+    <Layout
+      child={<UsersTable showAll={false} data={analytics?.allTransaction} />}
+    ></Layout>
+  );
+};
+
+export default Allusers;

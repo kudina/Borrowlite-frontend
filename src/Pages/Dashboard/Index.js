@@ -1,14 +1,25 @@
+import { useEffect } from "react";
 import Layout from "../../components/Layout";
 import { useGetCurrentUserQuery } from "../../features/api/apiSlice";
 import TransactionTable from "../../components/TransactionTable";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AdminPanel from "../AdminPanel/Index";
 
 const Chart = () => {
-  const { data: userData, isLoading } = useGetCurrentUserQuery(
-    {},
-    { refetchOnMountOrArgChange: true }
-  );
+  const {
+    data: userData,
+    error,
+    isError,
+    isLoading,
+  } = useGetCurrentUserQuery({}, { refetchOnMountOrArgChange: true });
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isError && error?.status === 401) {
+      navigate("/");
+      console.log(error);
+    }
+  }, [isError, error]);
 
   const DoAnimate = () => {
     return (

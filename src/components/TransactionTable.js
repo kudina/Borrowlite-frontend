@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useGetAllTransactionsByUserQuery } from "../../src/features/api/apiSlice";
 import moment from "moment";
 
 const TransactionTable = (props) => {
   const [copied, setCopied] = useState(false);
+  const navigate = useNavigate();
   const copyToClipboard = (item) => {
     navigator.clipboard.writeText(item.token).then(
       () => {
@@ -21,10 +22,17 @@ const TransactionTable = (props) => {
       }
     );
   };
-  const { isLoading } = useGetAllTransactionsByUserQuery(
+  const { isLoading, error, isError } = useGetAllTransactionsByUserQuery(
     {},
     { refetchOnMountOrArgChange: true }
   );
+
+  useEffect(() => {
+    if (isError && error?.status === 401) {
+      navigate("/");
+      console.log(error);
+    }
+  }, [isError, error]);
 
   const DoAnimate = () => {
     return (
@@ -63,7 +71,7 @@ const TransactionTable = (props) => {
   const newdata = props?.data?.slice(0, props.n);
 
   return (
-    <div className="w-screen">
+    <div className="w-full">
       <div className="flex  flex-row justify-between">
         <p className="font-text font-semibold text-[14px] text-deepGrey ml-[65px] mr-10 mt-10 ">
           {props.showAll ? (

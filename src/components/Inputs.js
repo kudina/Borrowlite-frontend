@@ -1,0 +1,51 @@
+import React from "react";
+
+export const InputSelect = ({
+  pOnclick,
+  cOnclick,
+  cList,
+  open,
+  value,
+  fValue,
+  dValue,
+  width,
+}) => {
+  return (
+    <div
+      className={`mt-6 relative w-[calc(100% - 20px)] lg:w-[${width}] mx-[20px] md:mx-auto `}
+    >
+      <div
+        className="w-full mt-2 p-3 border border-gray-300 rounded-[5px] h-[55px] focus:outline-none focus:border-gray-400 focus:ring-0 flex justify-between items-center "
+        onClick={pOnclick}
+      >
+        <span>{dValue !== null ? dValue : fValue}</span>{" "}
+        <img
+          src="/assets/images/arrowDown.png"
+          alt=""
+          className={`h-[5px] w-[8px] ${open && "rotate-180"}`}
+        />
+      </div>
+      <ul
+        className={`my-[5px] border-[1px] border-[#D9D9D9] rounded-[2px] drop-shadow max-h-[9rem] overflow-y-auto scrollbar scrollbar-thumb-textGrey scrollbar-w-[6px] scrollbar-track-deepGrey scrollbar-thumb-rounded-[20px] scrollbar-track-rounded-[20px] absolute w-full z-[1] ${
+          !open && "hidden "
+        }`}
+      >
+        {cList.map((list) => (
+          <li
+            key={list.name}
+            className={`w-full border-y-[1px] border-y-white p-[5px]  hover:bg-accent hover:text-white  ${
+              value === list.value
+                ? "bg-accent text-white"
+                : "bg-white text-[#717579]"
+            }`}
+            onClick={() => {
+              cOnclick(list);
+            }}
+          >
+            {list.name}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};

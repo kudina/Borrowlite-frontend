@@ -1,30 +1,31 @@
 module.exports = {
-  content: ['./src/**/*.{js,jsx,ts,tsx}',
-  "./src/**/*.{html,js}",
-    "./node_modules/tw-elements/dist/js/**/*.js"
-],
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "./src/**/*.{html,js}",
+    "./node_modules/tw-elements/dist/js/**/*.js",
+  ],
   theme: {
     fontFamily: {
-      primary: 'Playfair Display',
-      body: 'Work Sans',
+      primary: "Playfair Display",
+      body: "Work Sans",
       text: ["Quicksand"],
       subtext: ["Questrial"],
     },
     container: {
       padding: {
-        DEFAULT: '1rem',
-        lg: '1rem',
+        DEFAULT: "1rem",
+        lg: "1rem",
       },
     },
     screens: {
-      sm: '640px',
-      md: '768px',
-      lg: '1024px',
-      xl: '1280px',
+      sm: "640px",
+      md: "768px",
+      lg: "1024px",
+      xl: "1280px",
     },
     extend: {
       gridTemplateColumns: {
-        12: "10rem 1fr",
+        12: "12% 88%",
         13: "0 1fr",
       },
       content: {
@@ -35,13 +36,13 @@ module.exports = {
         contact: 'url("/src/assets/img/outline-text/contact.svg")',
       },
       colors: {
-        primary: '#050402',
-        secondary: '#1C1D24',
-        tertiary: '#131419',
-        herotext: '#450acc',
-        cgray: '#86888C',
-        danger: '#B70404',
-        white:'#FFFFFF',
+        primary: "#050402",
+        secondary: "#1C1D24",
+        tertiary: "#131419",
+        herotext: "#450acc",
+        cgray: "#86888C",
+        danger: "#B70404",
+        white: "#FFFFFF",
         orange: "#339900",
         black: "#000000",
         grey: "#FCFCFC",
@@ -52,17 +53,18 @@ module.exports = {
         blue: "#0AAAAA",
 
         accent: {
-          DEFAULT: '#339900',
-          hover: '#925a2b',
+          DEFAULT: "#339900",
+          hover: "#925a2b",
         },
-        paragraph: '#878e99',
+        paragraph: "#878e99",
       },
     },
   },
   plugins: [
     require("tailwind-scrollbar-hide"),
-    require("tw-elements/dist/plugin.cjs")
-     // ...
+    require("tailwind-scrollbar")({ nocompatible: true }),
+    require("tw-elements/dist/plugin.cjs"),
+    // ...
   ],
-  darkMode: "class"
+  darkMode: "class",
 };

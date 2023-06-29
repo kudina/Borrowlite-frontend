@@ -2,11 +2,15 @@ import React, { useState, useEffect } from "react";
 import Layout from "../../components/Layout";
 import { usePaystackPayment } from "react-paystack";
 import { useSelector, useDispatch } from "react-redux";
-import { useVerifyMeterMutation, useGetCurrentUserQuery } from "../../features/api/apiSlice";
+import {
+  useVerifyMeterMutation,
+  useGetCurrentUserQuery,
+} from "../../features/api/apiSlice";
 import { Link, useNavigate } from "react-router-dom";
+import { InputSelect } from "../../components/Inputs";
 
 const BuyLight = () => {
-  const [product_code, setProduct_code] = useState("");
+  const [product_code, setProduct_code] = useState(null);
   const [amount, setAmount] = useState("");
   const [meterNumber, setMeterNumber] = useState("");
   const [disableBtn, setDisableBtn] = useState(false);
@@ -14,46 +18,51 @@ const BuyLight = () => {
   const [error, setError] = useState("");
   const [paymentmode, setPaymentmode] = useState();
   const [servicecharge, setServicecharge] = useState(100);
+  const [openProductCode, setOpenProductCode] = useState(false);
+  const [displayProductCode, setDisplayProductCode] = useState(null);
+  const [openPaymentMode, setOpenPaymentMode] = useState(false);
+  const [displayPaymentMode, setDisplayPaymentMode] = useState(null);
   const navigate = useNavigate();
   const [page, setPage] = useState(0);
   const [vendorCode, setVendorCode] = useState("");
-  const [action, setAction] = useState('')
+  const [action, setAction] = useState("");
 
-  const [Verifymeter, data=[]] = useVerifyMeterMutation();
-  const { data:result, isSuccess, isError } = useGetCurrentUserQuery({}, { refetchOnMountOrArgChange: true });
-  const user = result
+  const [Verifymeter, data = []] = useVerifyMeterMutation();
+  const {
+    data: result,
+    isSuccess,
+    isError,
+  } = useGetCurrentUserQuery({}, { refetchOnMountOrArgChange: true });
+  const user = result;
 
-
-  useEffect(()=>{
-    if(data?.data?.data?.data?.text_status === "VERIFICATION SUCCESSFUL"){
+  useEffect(() => {
+    if (data?.data?.data?.data?.text_status === "VERIFICATION SUCCESSFUL") {
       const mdata = {
-            data: data.data.data.data,
-            amount,
-            meterNumber,
-            paymentmode,
-            product_code,
-          };
-          localStorage.setItem("mdata", JSON.stringify(mdata));
-      
-          navigate("/detailspage", {
-            state: {
-              data: data.data.data.data,
-              amount,
-              meterNumber,
-              paymentmode,
-              product_code,
-            },
-          });
-    }else{
-      if(data?.data?.data?.data?.text_status === "VERIFICATION FAILED"){
-      setError('Verification failed, if you are sure your meter number is correct, then this could be a network issue, please try again later')
+        data: data.data.data.data,
+        amount,
+        meterNumber,
+        paymentmode,
+        product_code,
+      };
+      localStorage.setItem("mdata", JSON.stringify(mdata));
+
+      navigate("/detailspage", {
+        state: {
+          data: data.data.data.data,
+          amount,
+          meterNumber,
+          paymentmode,
+          product_code,
+        },
+      });
+    } else {
+      if (data?.data?.data?.data?.text_status === "VERIFICATION FAILED") {
+        setError(
+          "Verification failed, if you are sure your meter number is correct, then this could be a network issue, please try again later"
+        );
+      }
     }
-  }
-  },[data])
-
-
-
-  
+  }, [data]);
 
   // time interval
 
@@ -62,7 +71,7 @@ const BuyLight = () => {
     email: user?.email,
     amount: amount * 100,
     // pk_test_f03073e7ac32abe21bfe6b988f7820ac5d86bdc4
-    publicKey: 'pk_live_55702f338e11ec554999f75824b1764a65172075',
+    publicKey: "pk_live_55702f338e11ec554999f75824b1764a65172075",
     //publicKey: "pk_test_f03073e7ac32abe21bfe6b988f7820ac5d86bdc4",
   };
 
@@ -77,7 +86,6 @@ const BuyLight = () => {
   // you can call this function anything
   const onClose = () => {
     // implementation for  whatever you want to do when the Paystack dialog closed.
-  
   };
   const initializePayment = usePaystackPayment(config);
   const balanceerror = () => {
@@ -116,12 +124,13 @@ const BuyLight = () => {
     //   );
     // }
 
-    if(paymentmode === "wallet"){
+    if (paymentmode === "wallet") {
       const requiredFunds = parseInt(amount) + parseInt(servicecharge);
-      const balance = user?.balance
-      if(requiredFunds > balance){
-        return setError(`You do not have sufficient funds in your account. You need ₦${requiredFunds} in your wallet.`)
-
+      const balance = user?.balance;
+      if (requiredFunds > balance) {
+        return setError(
+          `You do not have sufficient funds in your account. You need ₦${requiredFunds} in your wallet.`
+        );
       }
     }
 
@@ -151,8 +160,8 @@ const BuyLight = () => {
     Verifymeter(payload);
   };
 
- // if (data?.status === "fulfilled") {
-   // setAction(data?.data?.data?.data)
+  // if (data?.status === "fulfilled") {
+  // setAction(data?.data?.data?.data)
   //   if(data?.data?.data?.data?.text_status === "VERIFICATION SUCCESSFUL"){
   //   console.log("data here",data?.data?.data?.data)
   //   const mdata = {
@@ -176,7 +185,7 @@ const BuyLight = () => {
   // }else{
   //   setError('Verification failed')
   // }
- // }
+  // }
 
   const Details = () => {
     return <div>this is details</div>;
@@ -186,17 +195,17 @@ const BuyLight = () => {
     <Layout
       child={
         <>
-          <div className="flex items-center justify-around lg:mt-[15%] mt-[20%] flex-col">
+          <div className="flex items-center justify-around mt-[5%] flex-col">
             <div className="w-full ">
               <h1 className="font-text text-center text-deepGrey font-semibold">
                 Buy electricity from Borrowlite
               </h1>
               {/*show error */}
               <div className="mt-4 flex justify-center ">
-                  <p className=" font-text text-red-500 flex justify-center mt-5 text-center lg:w-[25%] w-[100%]">
-                      {error}
-                  </p>
-                  </div>
+                <p className=" font-text text-red-500 flex justify-center mt-5 text-center lg:w-[25%] w-[100%]">
+                  {error}
+                </p>
+              </div>
               <div className="mt-4 flex justify-center">
                 <input
                   value={amount}
@@ -219,46 +228,50 @@ const BuyLight = () => {
                   className="lg:w-[25%] w-[100%] ml-5 mr-5 mt-2 p-3 border border-gray-300 rounded-[5px]  h-[55px] focus:outline-none focus:border-gray-400 focus:ring-0"
                 />
               </div>
+              <InputSelect
+                width="25%"
+                pOnclick={() => setOpenProductCode(!openProductCode)}
+                cOnclick={(list) => {
+                  setProduct_code(list.value);
+                  setDisplayProductCode(list.name);
+                  setOpenProductCode(false);
+                }}
+                open={openProductCode}
+                value={product_code}
+                fValue="Select your Disco"
+                dValue={displayProductCode}
+                cList={[
+                  { value: "phed_prepaid_custom", name: "PHED" },
+                  { value: "ibedc_prepaid_custom", name: "IBEDC" },
+                  { value: "ikedc_prepaid_custom", name: "IKEDC" },
+                  { value: "ekedc_prepaid_custom", name: "EKEDC" },
+                  { value: "aedc_prepaid_custom", name: "AEDC" },
+                  { value: "kedco_prepaid_custom", name: "KEDCO" },
+                  { value: "kedc_prepaid_custom", name: "KEDC" },
+                  { value: "jedc_prepaid_custom", name: "JEDC" },
+                  { value: "bedc_prepaid_custom", name: "BEDC" },
+                  { value: "eedc_prepaid_custom", name: "EEDC" },
+                ]}
+              />
 
-              <div className="mt-4 flex justify-center">
-                <select
-                  value={product_code}
-                  name="product_code"
-                  onChange={(e) => setProduct_code(e.target.value)}
-                  className="lg:w-[25%] w-[100%] ml-5 mr-5 mt-2 p-3 border border-gray-300 rounded-[5px]  h-[55px] focus:outline-none focus:border-gray-400 focus:ring-0"
-                >
-                  <option disabled selected>
-                    Select your Disco
-                  </option>
-                  <option value="phed_prepaid_custom">PHED</option>
-                  <option value="ibedc_prepaid_custom">IBEDC</option>
-                  <option value="ikedc_prepaid_custom">IKEDC</option>
-                  <option value="ekedc_prepaid_custom">EKEDC</option>
-                  <option value="aedc_prepaid_custom">AEDC</option>
-                  <option value="kedco_prepaid_custom">KEDCO</option>
-                  <option value="kedc_prepaid_custom">KEDC</option>
-                  {/* <option value="yedc_prepaid_custom">YEDC</option> */}
-                  <option value="jedc_prepaid_custom">JEDC</option>
-                  <option value="bedc_prepaid_custom">BEDC</option>
-                  <option value="eedc_prepaid_custom">EEDC</option>
-                </select>
-              </div>
-
-              <div className="mt-4 flex justify-center">
-                <select
-                  value={paymentmode}
-                  name="paymentmode"
-                  onChange={(e) => setPaymentmode(e.target.value)}
-                  className="lg:w-[25%] w-[100%] ml-5 mr-5 mt-2 p-3 border border-gray-300 rounded-[5px]  h-[55px] focus:outline-none focus:border-gray-400 focus:ring-0"
-                >
-                  <option disabled selected>
-                    Select your payment method
-                  </option>
-                  <option value="wallet">Wallet</option>
-                  <option value="card">Card</option>
-                  <option value="vendor">Vendor</option>
-                </select>
-              </div>
+              <InputSelect
+                width="25%"
+                pOnclick={() => setOpenPaymentMode(!openPaymentMode)}
+                cOnclick={(list) => {
+                  setPaymentmode(list.value);
+                  setDisplayPaymentMode(list.name);
+                  setOpenPaymentMode(false);
+                }}
+                open={openPaymentMode}
+                value={paymentmode}
+                fValue="Select your payment method"
+                dValue={displayPaymentMode}
+                cList={[
+                  { value: "wallet", name: "Wallet" },
+                  { value: "card", name: "Card" },
+                  { value: "vendor", name: "Vendor" },
+                ]}
+              />
               {/* {paymentmode == "vendor" ? (
                 <div className="mt-4 flex justify-center">
                   <input
