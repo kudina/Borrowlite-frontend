@@ -197,7 +197,7 @@ const Dashboard = () => {
 
       {/* Mobile View */}
 
-      <MobileDashboard />
+      <MobileDashboard userData={userData} />
     </>
 
     //

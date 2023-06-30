@@ -2,104 +2,151 @@ import { useState } from "react";
 import Logo from "../assets/img/logo.png";
 import { useNavigate } from "react-router-dom";
 
+const NavCard = ({ head, subText, cOnClick }) => {
+  return (
+    <div
+      className="flex justify-between items-center mb-[20px]"
+      onClick={cOnClick}
+    >
+      <div>
+        <p className="text-[#000] text-[1rem] font-[500]">{head}</p>
+        <p className="text-[#B3B4B7] text-[0.63rem]">{subText}</p>
+      </div>
+      <img src="/assets/images/arrowRight.png" className="w-[12px] h-[20px]" />
+    </div>
+  );
+};
+
 export const MobileNavigation = () => {
   const [openUtilities, setOpenUtilities] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);
   const navigate = useNavigate();
   return (
-    <div className="bg-mobileBg flex justify-between items-center py-[24px] px-[27px] absolute bottom-0 left-0 right-0">
-      <img
-        src="/assets/images/dashboard.png"
-        alt=""
-        onClick={() => navigate("/dashboard")}
-      />
-      <img
-        src="/assets/images/icon2.png"
-        alt=""
-        onClick={() => {
-          setOpenUtilities(!openUtilities);
-          setOpenProfile(false);
-        }}
-      />
-      <img
-        src="/assets/images/invoices.png"
-        alt=""
-        onClick={() => {
-          setOpenProfile(!openProfile);
-          setOpenUtilities(false);
-        }}
-      />
-      <img
-        src="/assets/images/icon1.png"
-        alt=""
-        onClick={() => navigate("/comingSoon")}
-      />
-
+    <div>
       <div
-        className={`bg-white flex justify-between items-center py-[24px] px-[27px] absolute bottom-[5rem] left-0 right-0 transition-all ease-in-out duration-300 ${
-          !openUtilities && "transform translate-x-[-100%]"
+        className={`lg:w-1/3 bg-white shadow-lg px-8 pt-6 rounded-t-[30px] absolute left-0 right-0 top-[20%] bottom-[5rem] transition-all ease-in-out duration-300 ${
+          !openUtilities && "transform translate-y-[100%]"
         }`}
       >
-        <img
-          src="/assets/images/borrowLight.png"
-          alt=""
-          onClick={() => navigate("/Borrowlight")}
-          className="w-[25px] h-[25px]"
+        <NavCard
+          head="Borrow light"
+          subText="Borrow light now pay back later"
+          cOnClick={() => {
+            navigate("/Borrowlight");
+            setOpenUtilities(false);
+          }}
         />
-        <img
-          src="/assets/images/buyLight.png"
-          alt=""
-          onClick={() => navigate("/Buylight")}
-          className="w-[25px] h-[25px]"
+
+        <NavCard
+          head="Buy light"
+          subText="Buy light easily with Borrowlite"
+          cOnClick={() => {
+            navigate("/Buylight");
+            setOpenUtilities(false);
+          }}
         />
-        <img
-          src="/assets/images/call.png"
-          alt=""
-          onClick={() => navigate("/airtime")}
-          className="w-[25px] h-[25px]"
+
+        <NavCard
+          head="Airtime"
+          subText="Recharge your phone"
+          cOnClick={() => {
+            navigate("/airtime");
+            setOpenUtilities(false);
+          }}
         />
-        <img
-          src="/assets/images/data.png"
-          alt=""
-          onClick={() => navigate("/comingSoon")}
-          className="w-[25px] h-[25px]"
+        <NavCard
+          head="Data"
+          subText="Access Data easily with Borrowlite"
+          cOnClick={() => {
+            navigate("/comingSoon");
+            setOpenUtilities(false);
+          }}
         />
-        <img
-          src="/assets/images/cable.png"
-          alt=""
-          onClick={() => navigate("/comingSoon")}
-          className="w-[25px] h-[25px]"
+        <NavCard
+          head="Cable"
+          subText="Pay for DSTV GOTV STARTIMES"
+          cOnClick={() => {
+            navigate("/comingSoon");
+            setOpenUtilities(false);
+          }}
         />
       </div>
 
       <div
-        className={`bg-white flex justify-between items-center py-[24px] px-[27px] absolute bottom-[5rem] left-0 right-0 transition-all ease-in-out duration-300 ${
-          !openProfile && "transform translate-x-[-100%]"
+        className={`lg:w-1/3 bg-white shadow-lg px-8 pt-6 rounded-t-[30px] absolute left-0 right-0 top-[20%] bottom-[5rem] transition-all ease-in-out duration-300 ${
+          !openProfile && "transform translate-y-[100%]"
         }`}
       >
+        <NavCard
+          head="Transaction"
+          subText="See transaction history"
+          cOnClick={() => {
+            navigate("/Transaction");
+            setOpenProfile(false);
+          }}
+        />
+
+        <NavCard
+          head="Fund Wallet"
+          subText="Fund your Borrowlight wallet"
+          cOnClick={() => {
+            navigate("/Fundwallet");
+            setOpenProfile(false);
+          }}
+        />
+
+        <NavCard
+          head="Settings"
+          subText="Update default settings"
+          cOnClick={() => {
+            navigate("/comingSoon");
+            setOpenUtilities(false);
+          }}
+        />
+        <NavCard
+          head="Savings"
+          subText="Easy savings with Borrowlight"
+          cOnClick={() => {
+            navigate("/comingSoon");
+            setOpenUtilities(false);
+          }}
+        />
+      </div>
+
+      <div className="bg-mobileBg flex justify-between items-center py-[24px] px-[27px] absolute bottom-0 left-0 right-0">
         <img
-          src="/assets/images/borrowLight.png"
+          src="/assets/images/dashboard.png"
           alt=""
-          onClick={() => navigate("/Transaction")}
-          className="w-[25px] h-[25px]"
+          onClick={() => {
+            navigate("/dashboard");
+            setOpenProfile(false);
+            setOpenUtilities(false);
+          }}
         />
         <img
-          src="/assets/images/buyLight.png"
+          src="/assets/images/icon2.png"
           alt=""
-          onClick={() => navigate("/Fundwallet")}
-          className="w-[25px] h-[25px]"
+          onClick={() => {
+            setOpenUtilities(!openUtilities);
+            setOpenProfile(false);
+          }}
         />
         <img
-          src="/assets/images/settings.png"
+          src="/assets/images/invoices.png"
           alt=""
-          onClick={() => navigate("/comingSoon")}
-          className="w-[25px] h-[25px]"
+          onClick={() => {
+            setOpenProfile(!openProfile);
+            setOpenUtilities(false);
+          }}
         />
         <img
-          src="/assets/images/data.png"
+          src="/assets/images/icon1.png"
           alt=""
-          onClick={() => navigate("/comingSoon")}
-          className="w-[25px] h-[25px]"
+          onClick={() => {
+            navigate("/comingSoon");
+            setOpenProfile(false);
+            setOpenUtilities(false);
+          }}
         />
       </div>
     </div>

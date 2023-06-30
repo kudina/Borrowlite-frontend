@@ -1,5 +1,6 @@
 import Logo from "../assets/img/logo.png";
 import { MobileNavigation } from "./MobileLayout";
+import TransactionTable from "./TransactionTable";
 
 const Card = ({ text, amount, img }) => {
   return (
@@ -9,12 +10,12 @@ const Card = ({ text, amount, img }) => {
       </div>
       <div>
         <p className="text-white text-[0.63rem]">{text}</p>
-        <p className="text-white text-[1rem]">{amount}</p>
+        <p className="text-white text-[1rem]">N{amount}</p>
       </div>
     </div>
   );
 };
-const MobileDashboard = () => {
+const MobileDashboard = ({ userData }) => {
   return (
     <div className="w-screen h-screen md:hidden bg-gradient-to-r from-[#00C247] to-[#86878C] overflow-y-hidden">
       <div className="w-full pt-[28px] px-[19px] flex items-center justify-between ">
@@ -48,30 +49,31 @@ const MobileDashboard = () => {
         <div className="flex w-full gap-x-[19px] mt-[37px] justify-center">
           <Card
             text="Total BorrowedAmount"
-            amount="N50,725.01"
+            amount={userData?.borrowedAmount}
             img="/assets/images/dollarBlue.png"
           />
           <Card
             text="Wallet Balance"
-            amount="N42,388.56"
+            amount={userData?.balance}
             img="/assets/images/walletBlue.png"
           />
         </div>
         <div className="flex w-full gap-x-[19px] justify-center mt-[19px]">
           <Card
             text="Total Transaction Value"
-            amount="N50,725.01"
+            amount={userData?.claims}
             img="/assets/images/returnBlue.png"
           />
           <Card
             text="Total claims"
-            amount="N42,388.56"
+            amount={userData?.claims}
             img="/assets/images/boxBlue.png"
           />
         </div>
       </div>
 
       <div className="lg:w-1/3 bg-white rounded-lg shadow-lg p-8 rounded-t-[30px] h-full">
+        <TransactionTable showAll={true} n={10} />
         <MobileNavigation />
       </div>
     </div>

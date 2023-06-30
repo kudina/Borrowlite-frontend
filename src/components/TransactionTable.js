@@ -73,7 +73,7 @@ const TransactionTable = (props) => {
   return (
     <div className="w-full">
       <div className="flex  flex-row justify-between">
-        <p className="font-text font-semibold text-[14px] text-deepGrey ml-[65px] mr-10 mt-10 ">
+        <p className="font-text font-semibold text-[14px] text-deepGrey md:ml-[65px] md:mr-10 mt-10 ">
           {props.showAll ? (
             <span> Recent electricity Transactions</span>
           ) : (
@@ -82,7 +82,7 @@ const TransactionTable = (props) => {
         </p>
         {props.showAll ? (
           <Link to="/transaction">
-            <p className="font-text font-semibold text-[12px] text-deepGrey ml-10 mr-10 mt-10 w-[3rem]">
+            <p className="font-text font-semibold text-[12px] text-deepGrey md:ml-10 md:mr-10 mt-10 w-[3rem]">
               View all
             </p>
           </Link>
