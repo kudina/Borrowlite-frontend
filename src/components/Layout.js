@@ -46,8 +46,8 @@ const Layout = ({ child }) => {
     <div
       className={
         showMenu
-          ? " min-h-screen bg-grey grid grid-cols-13 md:grid-cols-12 transition-all ease-in-out duration-300"
-          : " min-h-screen bg-grey grid grid-cols-13 transition-all ease-in-out duration-300"
+          ? " min-h-screen bg-grey hidden md:grid grid-cols-13 md:grid-cols-12 transition-all ease-in-out duration-300"
+          : " min-h-screen bg-grey hidden md:grid grid-cols-13 transition-all ease-in-out duration-300"
       }
     >
       <div

@@ -10,6 +10,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { InputSelect } from "../../components/Inputs";
+import { MobileLayoutWithNav } from "../../components/MobileLayout";
 
 const Airtime = () => {
   const [amount, setAmount] = useState("");
@@ -140,10 +141,117 @@ const Airtime = () => {
   }, [data, ref]);
 
   return (
-    <Layout
-      child={
-        <div className="flex items-center justify-around mt-[5%]">
-          <div className="w-full ">
+    <>
+      {/* Desktop View */}
+      <Layout
+        child={
+          <div className="flex items-center justify-around mt-[5%]">
+            <div className="w-full ">
+              <h1 className="font-text text-center text-deepGrey font-semibold">
+                Airtime with Borrowlite
+              </h1>
+
+              <div className="mt-4 flex justify-center ">
+                {msg ? (
+                  <p className=" font-text text-green flex justify-center mt-5 text-center lg:w-[25%] w-[100%]">
+                    {msg}
+                  </p>
+                ) : null}
+                <p className=" font-text text-red-500 flex justify-center mt-5 text-center lg:w-[25%] w-[100%]">
+                  {error}
+                </p>
+              </div>
+
+              <div className="mt-4 flex justify-center">
+                <input
+                  value={phone}
+                  onChange={(e) => {
+                    setPhone(e.target.value);
+                  }}
+                  placeholder="080680..."
+                  type="text"
+                  className="lg:w-[25%] w-[100%] ml-5 mr-5 mt-2 p-3 border border-gray-300 rounded-[5px]  h-[55px] focus:outline-none focus:border-gray-400 focus:ring-0"
+                />
+              </div>
+              <div className="mt-4 flex justify-center">
+                <input
+                  value={amount}
+                  onChange={(e) => {
+                    setAmount(e.target.value);
+                  }}
+                  placeholder="Amount"
+                  type="text"
+                  className="lg:w-[25%] w-[100%] ml-5 mr-5 mt-2 p-3 border border-gray-300 rounded-[5px]  h-[55px] focus:outline-none focus:border-gray-400 focus:ring-0"
+                />
+              </div>
+              <InputSelect
+                width="25%"
+                pOnclick={() => setOpenNetworkType(!openNetworkType)}
+                cOnclick={(list) => {
+                  setProduct_code(list.value);
+                  setDisplayNetworkType(list.name);
+                  setOpenNetworkType(false);
+                }}
+                open={openNetworkType}
+                value={product_code}
+                fValue="Select your network"
+                dValue={displayNetworkType}
+                cList={[
+                  { value: "9mobile_custom", name: "9Mobile NG" },
+                  { value: "glo_custom", name: "Glo NG" },
+                  { value: "mtn_custom", name: "Mtn NG" },
+                  { value: "airtel_custom", name: "Airtel NG" },
+                ]}
+              />
+              <InputSelect
+                width="25%"
+                pOnclick={() => setOpenPaymentMode(!openPaymentMode)}
+                cOnclick={(mode) => {
+                  setPaymentmode(mode.value);
+                  setDisplayPaymentMethodMode(mode.name);
+                  setOpenPaymentMode(false);
+                }}
+                open={openPaymentMode}
+                value={paymentmode}
+                fValue="Select your payment method"
+                dValue={displayPaymentMode}
+                cList={[
+                  { value: "wallet", name: "Wallet" },
+                  { value: "card", name: "Card" },
+                ]}
+              />
+
+              <div className="mt-4 flex justify-center">
+                <button
+                  disabled={disableBtn}
+                  onClick={() => {
+                    GetAirtime();
+                    // initializePayment(onSuccess, onClose);
+                  }}
+                  className="lg:w-[25%] w-[100%] ml-5 mr-5 bg-accent text-white p-3 rounded-[5px] shadow h-[55px] "
+                >
+                  {data?.isLoading ? (
+                    <div
+                      className="inline-block h-6 w-6 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                      role="status"
+                    >
+                      <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                        Loading...
+                      </span>
+                    </div>
+                  ) : (
+                    <span> Checkout</span>
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+        }
+      ></Layout>
+      {/* Mobile View */}
+      <MobileLayoutWithNav
+        child={
+          <>
             <h1 className="font-text text-center text-deepGrey font-semibold">
               Airtime with Borrowlite
             </h1>
@@ -241,10 +349,10 @@ const Airtime = () => {
                 )}
               </button>
             </div>
-          </div>
-        </div>
-      }
-    ></Layout>
+          </>
+        }
+      />
+    </>
   );
 };
 

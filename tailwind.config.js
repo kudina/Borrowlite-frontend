@@ -51,6 +51,7 @@ module.exports = {
         textBlack: "#35383F",
         textGrey: "#5D6065",
         blue: "#0AAAAA",
+        mobileBg: "#FAFAFA",
 
         accent: {
           DEFAULT: "#339900",

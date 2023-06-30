@@ -1,21 +1,31 @@
-import Layout from "../../components/Layout"
-import TransactionTable from "../../components/TransactionTable"
-import { useGetAnalyticsQuery } from "../../features/api/apiSlice"
-const Index = () =>{
-    const {data:analytics, isLoading:loadanalytics } = useGetAnalyticsQuery({}, { refetchOnMountOrArgChange: true })
-    
-    return(
-        <Layout
+import Layout from "../../components/Layout";
+import { MobileLayoutWithNav } from "../../components/MobileLayout";
+import TransactionTable from "../../components/TransactionTable";
+import { useGetAnalyticsQuery } from "../../features/api/apiSlice";
+const Index = () => {
+  const { data: analytics, isLoading: loadanalytics } = useGetAnalyticsQuery(
+    {},
+    { refetchOnMountOrArgChange: true }
+  );
+
+  return (
+    <>
+      {/* Desktop View */}
+      <Layout
         child={
-            <TransactionTable
-            showAll={false}
-            data={analytics?.allTransaction}
-            />
-        }>
+          <TransactionTable showAll={false} data={analytics?.allTransaction} />
+        }
+      ></Layout>
 
-        </Layout>
-    )
-   
-}
+      {/* Mobile View */}
 
-export default Index
+      <MobileLayoutWithNav
+        child={
+          <TransactionTable showAll={false} data={analytics?.allTransaction} />
+        }
+      />
+    </>
+  );
+};
+
+export default Index;

@@ -13,6 +13,7 @@ import {
 } from "../../features/api/apiSlice";
 import Payback from "../Payback/Payback";
 import { InputSelect } from "../../components/Inputs";
+import { MobileLayoutWithNav } from "../../components/MobileLayout";
 
 const BorrowLight = () => {
   const [product_code, setProduct_code] = useState(null);
@@ -164,105 +165,210 @@ const BorrowLight = () => {
   // }
 
   return (
-    <Layout
-      child={
-        <>
-          {/* <Modal visible={visible} error={error}/> */}
+    <>
+      {/* Desktop View */}
+      <Layout
+        child={
+          <>
+            {/* <Modal visible={visible} error={error}/> */}
 
-          <div className="flex items-center justify-around mt-[5%] flex-col">
-            <div className="w-full ">
-              <h1 className="font-text text-center text-deepGrey font-semibold">
-                Borrow electricity from Borrowlite
-              </h1>
-              {/*show error */}
-              <div className="mt-4 flex justify-center ">
-                <p className=" font-text text-red-500 flex justify-center mt-5 text-center lg:w-[25%] w-[100%]">
-                  {error}
-                </p>
+            <div className="flex items-center justify-around mt-[5%] flex-col">
+              <div className="w-full ">
+                <h1 className="font-text text-center text-deepGrey font-semibold">
+                  Borrow electricity from Borrowlite
+                </h1>
+                {/*show error */}
+                <div className="mt-4 flex justify-center ">
+                  <p className=" font-text text-red-500 flex justify-center mt-5 text-center lg:w-[25%] w-[100%]">
+                    {error}
+                  </p>
+                </div>
+                {visible ? (
+                  <Payback merror={merror} email={user.email} />
+                ) : (
+                  <>
+                    <div className="mt-4 flex justify-center">
+                      <input
+                        value={amount}
+                        onChange={(e) => {
+                          setAmount(e.target.value);
+                        }}
+                        placeholder="Enter Amount"
+                        type="text"
+                        className="lg:w-[25%] w-[100%] ml-5 mr-5 mt-2 p-3 border border-gray-300 rounded-[5px]  h-[55px] focus:outline-none focus:border-gray-400 focus:ring-0"
+                      />
+                    </div>
+                    <div className="mt-4 flex justify-center">
+                      <input
+                        value={meterNumber}
+                        onChange={(e) => {
+                          setMeterNumber(e.target.value);
+                        }}
+                        placeholder="Enter your meter number"
+                        type="text"
+                        className="lg:w-[25%] w-[100%] ml-5 mr-5 mt-2 p-3 border border-gray-300 rounded-[5px]  h-[55px] focus:outline-none focus:border-gray-400 focus:ring-0"
+                      />
+                    </div>
+                    <InputSelect
+                      width="25%"
+                      pOnclick={() => setOpenProductCode(!openProductCode)}
+                      cOnclick={(list) => {
+                        setProduct_code(list.value);
+                        setDisplayProductCode(list.name);
+                        setOpenProductCode(false);
+                      }}
+                      open={openProductCode}
+                      value={product_code}
+                      fValue="Select your Disco"
+                      dValue={displayProductCode}
+                      cList={[
+                        { value: "phed_prepaid_custom", name: "PHED" },
+                        { value: "ibedc_prepaid_custom", name: "IBEDC" },
+                        { value: "ikedc_prepaid_custom", name: "IKEDC" },
+                        { value: "ekedc_prepaid_custom", name: "EKEDC" },
+                        { value: "aedc_prepaid_custom", name: "AEDC" },
+                        { value: "kedco_prepaid_custom", name: "KEDCO" },
+                        { value: "kedc_prepaid_custom", name: "KEDC" },
+                        { value: "jedc_prepaid_custom", name: "JEDC" },
+                        { value: "bedc_prepaid_custom", name: "BEDC" },
+                        { value: "eedc_prepaid_custom", name: "EEDC" },
+                      ]}
+                    />
+
+                    <div className="mt-4 flex justify-center">
+                      <button
+                        disabled={disableBtn}
+                        onClick={() => {
+                          verifyMeter();
+                        }}
+                        className="lg:w-[25%] w-[100%] ml-5 mr-5 bg-accent text-white p-3 rounded-[5px] shadow h-[55px] "
+                      >
+                        {data.isLoading ? (
+                          <div
+                            className="inline-block h-6 w-6 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                            role="status"
+                          >
+                            <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                              Loading...
+                            </span>
+                          </div>
+                        ) : (
+                          <span>Verify meter number</span>
+                        )}
+
+                        {/*   */}
+                      </button>
+                    </div>
+                  </>
+                )}
               </div>
-              {visible ? (
-                <Payback merror={merror} email={user.email} />
-              ) : (
-                <>
-                  <div className="mt-4 flex justify-center">
-                    <input
-                      value={amount}
-                      onChange={(e) => {
-                        setAmount(e.target.value);
-                      }}
-                      placeholder="Enter Amount"
-                      type="text"
-                      className="lg:w-[25%] w-[100%] ml-5 mr-5 mt-2 p-3 border border-gray-300 rounded-[5px]  h-[55px] focus:outline-none focus:border-gray-400 focus:ring-0"
-                    />
-                  </div>
-                  <div className="mt-4 flex justify-center">
-                    <input
-                      value={meterNumber}
-                      onChange={(e) => {
-                        setMeterNumber(e.target.value);
-                      }}
-                      placeholder="Enter your meter number"
-                      type="text"
-                      className="lg:w-[25%] w-[100%] ml-5 mr-5 mt-2 p-3 border border-gray-300 rounded-[5px]  h-[55px] focus:outline-none focus:border-gray-400 focus:ring-0"
-                    />
-                  </div>
-                  <InputSelect
-                    width="25%"
-                    pOnclick={() => setOpenProductCode(!openProductCode)}
-                    cOnclick={(list) => {
-                      setProduct_code(list.value);
-                      setDisplayProductCode(list.name);
-                      setOpenProductCode(false);
-                    }}
-                    open={openProductCode}
-                    value={product_code}
-                    fValue="Select your Disco"
-                    dValue={displayProductCode}
-                    cList={[
-                      { value: "phed_prepaid_custom", name: "PHED" },
-                      { value: "ibedc_prepaid_custom", name: "IBEDC" },
-                      { value: "ikedc_prepaid_custom", name: "IKEDC" },
-                      { value: "ekedc_prepaid_custom", name: "EKEDC" },
-                      { value: "aedc_prepaid_custom", name: "AEDC" },
-                      { value: "kedco_prepaid_custom", name: "KEDCO" },
-                      { value: "kedc_prepaid_custom", name: "KEDC" },
-                      { value: "jedc_prepaid_custom", name: "JEDC" },
-                      { value: "bedc_prepaid_custom", name: "BEDC" },
-                      { value: "eedc_prepaid_custom", name: "EEDC" },
-                    ]}
-                  />
-
-                  <div className="mt-4 flex justify-center">
-                    <button
-                      disabled={disableBtn}
-                      onClick={() => {
-                        verifyMeter();
-                      }}
-                      className="lg:w-[25%] w-[100%] ml-5 mr-5 bg-accent text-white p-3 rounded-[5px] shadow h-[55px] "
-                    >
-                      {data.isLoading ? (
-                        <div
-                          className="inline-block h-6 w-6 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-                          role="status"
-                        >
-                          <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-                            Loading...
-                          </span>
-                        </div>
-                      ) : (
-                        <span>Verify meter number</span>
-                      )}
-
-                      {/*   */}
-                    </button>
-                  </div>
-                </>
-              )}
             </div>
-          </div>
-        </>
-      }
-    ></Layout>
+          </>
+        }
+      ></Layout>
+
+      {/* Mobile View */}
+
+      <MobileLayoutWithNav
+        child={
+          <>
+            {/* <Modal visible={visible} error={error}/> */}
+
+            <div className="flex items-center justify-around mt-[5%] flex-col">
+              <div className="w-full ">
+                <h1 className="font-text text-center text-deepGrey font-semibold">
+                  Borrow electricity from Borrowlite
+                </h1>
+                {/*show error */}
+                <div className="mt-4 flex justify-center ">
+                  <p className=" font-text text-red-500 flex justify-center mt-5 text-center lg:w-[25%] w-[100%]">
+                    {error}
+                  </p>
+                </div>
+                {visible ? (
+                  <Payback merror={merror} email={user.email} />
+                ) : (
+                  <>
+                    <div className="mt-4 flex justify-center">
+                      <input
+                        value={amount}
+                        onChange={(e) => {
+                          setAmount(e.target.value);
+                        }}
+                        placeholder="Enter Amount"
+                        type="text"
+                        className="lg:w-[25%] w-[100%] ml-5 mr-5 mt-2 p-3 border border-gray-300 rounded-[5px]  h-[55px] focus:outline-none focus:border-gray-400 focus:ring-0"
+                      />
+                    </div>
+                    <div className="mt-4 flex justify-center">
+                      <input
+                        value={meterNumber}
+                        onChange={(e) => {
+                          setMeterNumber(e.target.value);
+                        }}
+                        placeholder="Enter your meter number"
+                        type="text"
+                        className="lg:w-[25%] w-[100%] ml-5 mr-5 mt-2 p-3 border border-gray-300 rounded-[5px]  h-[55px] focus:outline-none focus:border-gray-400 focus:ring-0"
+                      />
+                    </div>
+                    <InputSelect
+                      width="25%"
+                      pOnclick={() => setOpenProductCode(!openProductCode)}
+                      cOnclick={(list) => {
+                        setProduct_code(list.value);
+                        setDisplayProductCode(list.name);
+                        setOpenProductCode(false);
+                      }}
+                      open={openProductCode}
+                      value={product_code}
+                      fValue="Select your Disco"
+                      dValue={displayProductCode}
+                      cList={[
+                        { value: "phed_prepaid_custom", name: "PHED" },
+                        { value: "ibedc_prepaid_custom", name: "IBEDC" },
+                        { value: "ikedc_prepaid_custom", name: "IKEDC" },
+                        { value: "ekedc_prepaid_custom", name: "EKEDC" },
+                        { value: "aedc_prepaid_custom", name: "AEDC" },
+                        { value: "kedco_prepaid_custom", name: "KEDCO" },
+                        { value: "kedc_prepaid_custom", name: "KEDC" },
+                        { value: "jedc_prepaid_custom", name: "JEDC" },
+                        { value: "bedc_prepaid_custom", name: "BEDC" },
+                        { value: "eedc_prepaid_custom", name: "EEDC" },
+                      ]}
+                    />
+
+                    <div className="mt-4 flex justify-center">
+                      <button
+                        disabled={disableBtn}
+                        onClick={() => {
+                          verifyMeter();
+                        }}
+                        className="lg:w-[25%] w-[100%] ml-5 mr-5 bg-accent text-white p-3 rounded-[5px] shadow h-[55px] "
+                      >
+                        {data.isLoading ? (
+                          <div
+                            className="inline-block h-6 w-6 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                            role="status"
+                          >
+                            <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                              Loading...
+                            </span>
+                          </div>
+                        ) : (
+                          <span>Verify meter number</span>
+                        )}
+
+                        {/*   */}
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          </>
+        }
+      />
+    </>
   );
 };
 

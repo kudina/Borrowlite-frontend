@@ -4,6 +4,7 @@ import { useGetCurrentUserQuery } from "../../features/api/apiSlice";
 import TransactionTable from "../../components/TransactionTable";
 import { Link, useNavigate } from "react-router-dom";
 import AdminPanel from "../AdminPanel/Index";
+import MobileDashboard from "../../components/MobileDashboard";
 
 const Chart = () => {
   const {
@@ -185,11 +186,18 @@ const Dashboard = () => {
   );
   return (
     <>
-      {userData?.userType === "admin" ? (
-        <AdminPanel />
-      ) : (
-        <Layout child={<Chart />} />
-      )}
+      {/* Desktop View */}
+      <div className="hidden md:block">
+        {userData?.userType === "admin" ? (
+          <AdminPanel />
+        ) : (
+          <Layout child={<Chart />} />
+        )}
+      </div>
+
+      {/* Mobile View */}
+
+      <MobileDashboard />
     </>
 
     //

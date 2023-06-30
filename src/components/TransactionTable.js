@@ -89,7 +89,7 @@ const TransactionTable = (props) => {
         ) : null}
       </div>
 
-      <div className="mx-10 mt-3 mb-20 overflow-x-auto shadow-md sm:rounded-lg bg-white w-[calc(100% - 10)]">
+      <div className="md:mx-10 mt-3 mb-20 overflow-x-auto shadow-md sm:rounded-lg bg-white w-[calc(100% - 10)]">
         <table className="w-full  text-sm text-left text-gray-500 dark:text-gray-400 ">
           <thead className="text-xs text-gray-700 uppercase dark:text-gray-400">
             <tr>

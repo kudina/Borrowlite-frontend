@@ -4,6 +4,7 @@ import TransactionTable from "../../components/TransactionTable";
 import UsersTable from "../../components/UsersTable";
 import { useGetAnalyticsQuery } from "../../features/api/apiSlice";
 import { useNavigate } from "react-router-dom";
+import { MobileLayoutWithNav } from "../../components/MobileLayout";
 const Allusers = () => {
   const navigate = useNavigate();
   const {
@@ -21,9 +22,17 @@ const Allusers = () => {
   }, [isError, error]);
 
   return (
-    <Layout
-      child={<UsersTable showAll={false} data={analytics?.allTransaction} />}
-    ></Layout>
+    <>
+      {/* Desktop View */}
+      <Layout
+        child={<UsersTable showAll={false} data={analytics?.allTransaction} />}
+      ></Layout>
+      {/* Mobile View */}
+
+      <MobileLayoutWithNav
+        child={<UsersTable showAll={false} data={analytics?.allTransaction} />}
+      />
+    </>
   );
 };
 
