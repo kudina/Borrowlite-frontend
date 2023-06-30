@@ -100,7 +100,7 @@ export const MobileNavigation = () => {
           subText="Update default settings"
           cOnClick={() => {
             navigate("/comingSoon");
-            setOpenUtilities(false);
+            setOpenProfile(false);
           }}
         />
         <NavCard
@@ -108,7 +108,7 @@ export const MobileNavigation = () => {
           subText="Easy savings with Borrowlight"
           cOnClick={() => {
             navigate("/comingSoon");
-            setOpenUtilities(false);
+            setOpenProfile(false);
           }}
         />
       </div>
