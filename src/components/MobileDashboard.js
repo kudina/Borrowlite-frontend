@@ -1,6 +1,9 @@
 import Logo from "../assets/img/logo.png";
 import { MobileNavigation } from "./MobileLayout";
 import TransactionTable from "./TransactionTable";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faNairaSign } from '@fortawesome/free-solid-svg-icons'
+
 
 const Card = ({ text, amount, img }) => {
   return (
@@ -10,7 +13,7 @@ const Card = ({ text, amount, img }) => {
       </div>
       <div>
         <p className="text-white text-[0.63rem]">{text}</p>
-        <p className="text-white text-[1rem]">N{amount}</p>
+        <p className="text-white text-[1rem]"> <FontAwesomeIcon icon={faNairaSign} /> {amount}</p>
       </div>
     </div>
   );
@@ -23,19 +26,19 @@ const MobileDashboard = ({ userData }) => {
 
         <div className="text-white">Dashboard</div>
         <div className="flex items-center gap-x-[18px]">
-          <img
+          {/* <img
             src="/assets/images/comment.png"
             alt=""
             className="w-[20px] h-[20px]"
-          />{" "}
+          />{" "} */}
           <img
             src="assets/images/bell.png"
             alt=""
             className="w-[20px] h-[20px]"
           />{" "}
           <div className="flex items-center">
-            <span className="text-blue bg-white p-[8px] flex items-center justify-center rounded-[5px]">
-              UN
+            <span className="text-blue bg-white p-[8px] flex items-center justify-center rounded-[5px] uppercase">
+            {userData?.firstName?.substring(0, 2)}
             </span>
             <img
               src="/assets/images/arrowDownWhite.png"
@@ -48,7 +51,7 @@ const MobileDashboard = ({ userData }) => {
       <div className="w-full mb-[46px]">
         <div className="flex w-full gap-x-[19px] mt-[37px] justify-center">
           <Card
-            text="Total BorrowedAmount"
+            text="Total Borrowed"
             amount={userData?.borrowedAmount}
             img="/assets/images/dollarBlue.png"
           />
@@ -60,7 +63,7 @@ const MobileDashboard = ({ userData }) => {
         </div>
         <div className="flex w-full gap-x-[19px] justify-center mt-[19px]">
           <Card
-            text="Total Transaction Value"
+            text="Transaction Value"
             amount={userData?.claims}
             img="/assets/images/returnBlue.png"
           />

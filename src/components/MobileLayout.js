@@ -1,6 +1,8 @@
 import { useState } from "react";
 import Logo from "../assets/img/logo.png";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEnvelope, faHouse, faPlugCircleBolt, faUser, faBitcoinSign, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 
 const NavCard = ({ head, subText, cOnClick }) => {
   return (
@@ -12,7 +14,8 @@ const NavCard = ({ head, subText, cOnClick }) => {
         <p className="text-[#000] text-[1rem] font-[500]">{head}</p>
         <p className="text-[#B3B4B7] text-[0.63rem]">{subText}</p>
       </div>
-      <img src="/assets/images/arrowRight.png" className="w-[12px] h-[20px]" />
+      <FontAwesomeIcon icon={faChevronRight} />
+      {/* <img src="/assets/images/arrowRight.png" className="w-[12px] h-[20px]" /> */}
     </div>
   );
 };
@@ -115,33 +118,50 @@ export const MobileNavigation = () => {
         />
       </div>
 
-      <div className="bg-mobileBg flex justify-between items-center py-[24px] px-[27px] absolute bottom-0 left-0 right-0">
-        <img
-          src="/assets/images/dashboard.png"
-          alt=""
-          onClick={() => {
-            navigate("/dashboard");
-            setOpenProfile(false);
-            setOpenUtilities(false);
-          }}
-        />
-        <img
-          src="/assets/images/icon2.png"
-          alt=""
+      <div className="bg-mobileBg flex justify-between items-center py-[18px] px-[27px] absolute bottom-0 left-0 right-0">
+        <div className="flex flex-col"
+         onClick={() => {
+          navigate("/dashboard");
+          setOpenProfile(false);
+          setOpenUtilities(false);
+        }}
+        >
+          <FontAwesomeIcon icon={faHouse} className="text-xl text-accent"/>
+          <div className="text-[10px]">Dashboard</div>
+        </div>
+
+        <div className="flex flex-col"
           onClick={() => {
             setOpenUtilities(!openUtilities);
             setOpenProfile(false);
           }}
-        />
-        <img
-          src="/assets/images/invoices.png"
-          alt=""
-          onClick={() => {
-            setOpenProfile(!openProfile);
-            setOpenUtilities(false);
-          }}
-        />
-        <img
+        >
+        <FontAwesomeIcon icon={faPlugCircleBolt}  className="text-xl text-accent"/>
+          <div className="text-[10px]">Utilities</div>
+        </div>
+
+        <div className="flex flex-col"
+         onClick={() => {
+          setOpenProfile(!openProfile);
+          setOpenUtilities(false);
+        }}
+        >
+        <FontAwesomeIcon icon={faUser}  className="text-xl text-accent"/>
+          <div className="text-[10px]">Profile</div>
+        </div>
+
+        <div className="flex flex-col"
+        onClick={() => {
+          navigate("/comingSoon");
+          setOpenProfile(false);
+          setOpenUtilities(false);
+        }}
+        >
+        <FontAwesomeIcon icon={faBitcoinSign}  className="text-xl text-accent"/>
+          <div className="text-[10px]">Exchange</div>
+        </div>
+        
+        {/* <img
           src="/assets/images/icon1.png"
           alt=""
           onClick={() => {
@@ -149,7 +169,7 @@ export const MobileNavigation = () => {
             setOpenProfile(false);
             setOpenUtilities(false);
           }}
-        />
+        /> */}
       </div>
     </div>
   );

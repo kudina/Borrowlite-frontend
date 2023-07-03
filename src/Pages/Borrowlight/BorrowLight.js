@@ -297,7 +297,7 @@ const BorrowLight = () => {
                         }}
                         placeholder="Enter Amount"
                         type="text"
-                        className="lg:w-[25%] w-[100%] ml-5 mr-5 mt-2 p-3 border border-gray-300 rounded-[5px]  h-[55px] focus:outline-none focus:border-gray-400 focus:ring-0"
+                        className="lg:w-[25%] w-[100%]  mt-2 p-3 border border-gray-300 rounded-[5px]  h-[55px] focus:outline-none focus:border-gray-400 focus:ring-0"
                       />
                     </div>
                     <div className="mt-4 flex justify-center">
@@ -308,11 +308,12 @@ const BorrowLight = () => {
                         }}
                         placeholder="Enter your meter number"
                         type="text"
-                        className="lg:w-[25%] w-[100%] ml-5 mr-5 mt-2 p-3 border border-gray-300 rounded-[5px]  h-[55px] focus:outline-none focus:border-gray-400 focus:ring-0"
+                        className="lg:w-[25%] w-[100%]  mt-2 p-3 border border-gray-300 rounded-[5px]  h-[55px] focus:outline-none focus:border-gray-400 focus:ring-0"
                       />
                     </div>
+                   
                     <InputSelect
-                      width="25%"
+                  
                       pOnclick={() => setOpenProductCode(!openProductCode)}
                       cOnclick={(list) => {
                         setProduct_code(list.value);
@@ -343,7 +344,7 @@ const BorrowLight = () => {
                         onClick={() => {
                           verifyMeter();
                         }}
-                        className="lg:w-[25%] w-[100%] ml-5 mr-5 bg-accent text-white p-3 rounded-[5px] shadow h-[55px] "
+                        className="lg:w-[25%] w-[100%]  bg-accent text-white p-3 rounded-[5px] shadow h-[55px] "
                       >
                         {data.isLoading ? (
                           <div
