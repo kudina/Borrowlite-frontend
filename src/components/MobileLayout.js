@@ -161,15 +161,6 @@ export const MobileNavigation = () => {
           <div className="text-[10px]">Exchange</div>
         </div>
         
-        {/* <img
-          src="/assets/images/icon1.png"
-          alt=""
-          onClick={() => {
-            navigate("/comingSoon");
-            setOpenProfile(false);
-            setOpenUtilities(false);
-          }}
-        /> */}
       </div>
     </div>
   );

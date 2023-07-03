@@ -1,0 +1,30 @@
+{
+  "files": {
+    "main.css": "/static/css/main.db7e3b91.css",
+    "main.js": "/static/js/main.87a007e9.js",
+    "static/media/KEDCO.png": "/static/media/KEDCO.6f9c1f19e628579ac4b9.png",
+    "static/media/testimonial-2.webp": "/static/media/testimonial-2.4c1e7c2fe42e548d2e0f.webp",
+    "static/media/logo.png": "/static/media/logo.fd8562301beb330b39f0.png",
+    "static/media/bg.svg": "/static/media/bg.6b04e8f5319053c00bc47a6cf470564d.svg",
+    "static/media/IKEDC.png": "/static/media/IKEDC.208f9c33048d802b747d.png",
+    "static/media/p1.webp": "/static/media/p1.52f0f3a89c11044c2037.webp",
+    "static/media/p5.webp": "/static/media/p5.40f22911cc8104bfdf42.webp",
+    "static/media/JED.png": "/static/media/JED.67c627e4b090de8026d7.png",
+    "static/media/reminder.png": "/static/media/reminder.09abed54ced86e0f06a6.png",
+    "static/media/KAEDCO.png": "/static/media/KAEDCO.e4708129994914489c3f.png",
+    "static/media/testimonial-3.webp": "/static/media/testimonial-3.677360499dd5a97f022a.webp",
+    "static/media/AEDC.png": "/static/media/AEDC.4ee9bbe95f413a68e9db.png",
+    "static/media/p3.webp": "/static/media/p3.05179f007af7cd2ad2a6.webp",
+    "static/media/p4.webp": "/static/media/p4.373ffd063f14c91c84c5.webp",
+    "static/media/p6.webp": "/static/media/p6.26fcf4320bfa0eacc03a.webp",
+    "static/media/testimonial-1.webp": "/static/media/testimonial-1.8e05fd5dbc71387931b5.webp",
+    "static/media/p2.webp": "/static/media/p2.987c883e6e66df8a1228.webp",
+    "index.html": "/index.html",
+    "main.db7e3b91.css.map": "/static/css/main.db7e3b91.css.map",
+    "main.87a007e9.js.map": "/static/js/main.87a007e9.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.db7e3b91.css",
+    "static/js/main.87a007e9.js"
+  ]
+}
