@@ -13,7 +13,7 @@ export const InputSelect = ({
 }) => {
   return (
     <div
-      className={`mt-6 relative w-[calc(100% - 20px)] lg:w-[${width}] mx-[20px] md:mx-auto `}
+      className={`mt-6 relative lg:w-[${width}] w-full  md:mx-auto `}
     >
       <div
         className="w-full mt-2 p-3 border border-gray-300 rounded-[5px] h-[55px] focus:outline-none focus:border-gray-400 focus:ring-0 flex justify-between items-center "
