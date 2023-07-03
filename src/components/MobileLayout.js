@@ -25,7 +25,8 @@ export const MobileNavigation = () => {
     <div>
       <div
         className={`lg:w-1/3 bg-white shadow-lg px-8 pt-6 rounded-t-[30px] absolute left-0 right-0 top-[20%] bottom-[5rem] transition-all ease-in-out duration-300 ${
-          !openUtilities && "transform translate-y-[100%]"
+          !openUtilities &&
+          "transform translate-y-[100%] overflow-y-hidden relative opacity-0"
         }`}
       >
         <NavCard
@@ -74,7 +75,8 @@ export const MobileNavigation = () => {
 
       <div
         className={`lg:w-1/3 bg-white shadow-lg px-8 pt-6 rounded-t-[30px] absolute left-0 right-0 top-[20%] bottom-[5rem] transition-all ease-in-out duration-300 ${
-          !openProfile && "transform translate-y-[100%]"
+          !openProfile &&
+          "transform translate-y-[100%] overflow-y-hidden relative opacity-0"
         }`}
       >
         <NavCard
