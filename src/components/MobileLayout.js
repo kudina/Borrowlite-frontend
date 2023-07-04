@@ -118,7 +118,7 @@ export const MobileNavigation = () => {
         />
       </div>
 
-      <div className="bg-mobileBg flex justify-between items-center py-[18px] px-[27px] absolute bottom-0 left-0 right-0">
+      <div className="bg-mobileBg flex justify-between items-center py-[18px] px-[27px] fixed bottom-0 left-0 right-0">
         <div className="flex flex-col"
          onClick={() => {
           navigate("/dashboard");

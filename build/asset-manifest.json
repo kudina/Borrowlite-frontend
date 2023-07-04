@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.b099ce4b.css",
-    "main.js": "/static/js/main.2ce5458e.js",
+    "main.js": "/static/js/main.e34083e1.js",
     "static/media/KEDCO.png": "/static/media/KEDCO.6f9c1f19e628579ac4b9.png",
     "static/media/testimonial-2.webp": "/static/media/testimonial-2.4c1e7c2fe42e548d2e0f.webp",
     "static/media/logo.png": "/static/media/logo.fd8562301beb330b39f0.png",
@@ -21,10 +21,10 @@
     "static/media/p2.webp": "/static/media/p2.987c883e6e66df8a1228.webp",
     "index.html": "/index.html",
     "main.b099ce4b.css.map": "/static/css/main.b099ce4b.css.map",
-    "main.2ce5458e.js.map": "/static/js/main.2ce5458e.js.map"
+    "main.e34083e1.js.map": "/static/js/main.e34083e1.js.map"
   },
   "entrypoints": [
     "static/css/main.b099ce4b.css",
-    "static/js/main.2ce5458e.js"
+    "static/js/main.e34083e1.js"
   ]
 }
