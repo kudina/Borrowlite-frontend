@@ -274,14 +274,14 @@ const BorrowLight = () => {
           <>
             {/* <Modal visible={visible} error={error}/> */}
 
-            <div className="flex items-center justify-around mt-[5%] flex-col">
+            <div className="flex items-center justify-around  flex-col">
               <div className="w-full ">
                 <h1 className="font-text text-center text-deepGrey font-semibold">
                   Borrow electricity from Borrowlite
                 </h1>
                 {/*show error */}
-                <div className="mt-4 flex justify-center ">
-                  <p className=" font-text text-red-500 flex justify-center mt-5 text-center lg:w-[25%] w-[100%]">
+                <div className="mt-2 flex justify-center ">
+                  <p className=" font-text text-red-500 flex justify-center mt-2 text-center lg:w-[25%] w-[100%]">
                     {error}
                   </p>
                 </div>
@@ -289,7 +289,7 @@ const BorrowLight = () => {
                   <Payback merror={merror} email={user.email} />
                 ) : (
                   <>
-                    <div className="mt-4 flex justify-center">
+                    <div className="mt-2 flex justify-center">
                       <input
                         value={amount}
                         onChange={(e) => {
@@ -297,10 +297,10 @@ const BorrowLight = () => {
                         }}
                         placeholder="Enter Amount"
                         type="text"
-                        className="lg:w-[25%] w-[100%]  mt-2 p-3 border border-gray-300 rounded-[5px]  h-[55px] focus:outline-none focus:border-gray-400 focus:ring-0"
+                        className="lg:w-[25%] w-[100%]  mt-2 p-3 border border-gray-300 rounded-[5px]  h-[45px]   lg:h-[55px]  focus:outline-none focus:border-gray-400 focus:ring-0"
                       />
                     </div>
-                    <div className="mt-4 flex justify-center">
+                    <div className="mt-2 flex justify-center">
                       <input
                         value={meterNumber}
                         onChange={(e) => {
@@ -308,7 +308,7 @@ const BorrowLight = () => {
                         }}
                         placeholder="Enter your meter number"
                         type="text"
-                        className="lg:w-[25%] w-[100%]  mt-2 p-3 border border-gray-300 rounded-[5px]  h-[55px] focus:outline-none focus:border-gray-400 focus:ring-0"
+                        className="lg:w-[25%] w-[100%]  mt-2 p-3 border border-gray-300 rounded-[5px] h-[45px]   lg:h-[55px]  focus:outline-none focus:border-gray-400 focus:ring-0"
                       />
                     </div>
                    
@@ -344,7 +344,7 @@ const BorrowLight = () => {
                         onClick={() => {
                           verifyMeter();
                         }}
-                        className="lg:w-[25%] w-[100%]  bg-accent text-white p-3 rounded-[5px] shadow h-[55px] "
+                        className="lg:w-[25%] w-[100%]  bg-accent text-white p-3 rounded-[5px] shadow h-[45px] lg:h-[55px]  "
                       >
                         {data.isLoading ? (
                           <div

@@ -13,10 +13,10 @@ export const InputSelect = ({
 }) => {
   return (
     <div
-      className={`mt-6 relative lg:w-[${width}] w-full  md:mx-auto `}
+      className={`mt-4 relative lg:w-[${width}] w-full  md:mx-auto `}
     >
       <div
-        className="w-full mt-2 p-3 border border-gray-300 rounded-[5px] h-[55px] focus:outline-none focus:border-gray-400 focus:ring-0 flex justify-between items-center "
+        className="w-full mt-2 p-3 border border-gray-300 rounded-[5px] h-[45px]   lg:h-[55px] focus:outline-none focus:border-gray-400 focus:ring-0 flex justify-between items-center "
         onClick={pOnclick}
       >
         <span>{dValue !== null ? dValue : fValue}</span>{" "}

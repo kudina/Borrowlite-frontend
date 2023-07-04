@@ -258,16 +258,16 @@ const Airtime = () => {
 
             <div className="mt-4 flex justify-center ">
               {msg ? (
-                <p className=" font-text text-green flex justify-center mt-5 text-center lg:w-[25%] w-[100%]">
+                <p className=" font-text text-green flex justify-center  text-center lg:w-[25%] w-[100%]">
                   {msg}
                 </p>
               ) : null}
-              <p className=" font-text text-red-500 flex justify-center mt-5 text-center lg:w-[25%] w-[100%]">
+              <p className=" font-text text-red-500 flex justify-center  text-center lg:w-[25%] w-[100%]">
                 {error}
               </p>
             </div>
 
-            <div className="mt-4 flex justify-center">
+            <div className="mt-2 flex justify-center">
               <input
                 value={phone}
                 onChange={(e) => {
@@ -275,10 +275,10 @@ const Airtime = () => {
                 }}
                 placeholder="080680..."
                 type="text"
-                className="lg:w-[25%] w-[100%]  mt-2 p-3 border border-gray-300 rounded-[5px]  h-[55px] focus:outline-none focus:border-gray-400 focus:ring-0"
+                className="lg:w-[25%] w-[100%]  mt-2 p-3 border border-gray-300 rounded-[5px]  h-[45px] lg:h-[55px]  focus:outline-none focus:border-gray-400 focus:ring-0"
               />
             </div>
-            <div className="mt-4 flex justify-center">
+            <div className="mt-2 flex justify-center">
               <input
                 value={amount}
                 onChange={(e) => {
@@ -286,7 +286,7 @@ const Airtime = () => {
                 }}
                 placeholder="Amount"
                 type="text"
-                className="lg:w-[25%] w-[100%]  mt-2 p-3 border border-gray-300 rounded-[5px]  h-[55px] focus:outline-none focus:border-gray-400 focus:ring-0"
+                className="lg:w-[25%] w-[100%]  mt-2 p-3 border border-gray-300 rounded-[5px]  h-[45px] lg:h-[55px] focus:outline-none focus:border-gray-400 focus:ring-0"
               />
             </div>
             <InputSelect
@@ -333,7 +333,7 @@ const Airtime = () => {
                   GetAirtime();
                   // initializePayment(onSuccess, onClose);
                 }}
-                className="lg:w-[25%] w-[100%]  bg-accent text-white p-3 rounded-[5px] shadow h-[55px] "
+                className="lg:w-[25%] w-[100%]  bg-accent text-white p-3 rounded-[5px] shadow h-[45px] lg:h-[55px]  "
               >
                 {data?.isLoading ? (
                   <div
