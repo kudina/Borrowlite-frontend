@@ -26,6 +26,7 @@ export const MobileNavigation = () => {
   const navigate = useNavigate();
   return (
     <div>
+      {/* util */}
       <div
         className={`lg:w-1/3 bg-white shadow-lg px-8 pt-6 rounded-t-[30px] absolute left-0 right-0 top-[20%] bottom-[5rem] transition-all ease-in-out duration-300 ${
           !openUtilities &&
@@ -76,6 +77,8 @@ export const MobileNavigation = () => {
         />
       </div>
 
+
+     {/* profile */}
       <div
         className={`lg:w-1/3 bg-white shadow-lg px-8 pt-6 rounded-t-[30px] absolute left-0 right-0 top-[20%] bottom-[5rem] transition-all ease-in-out duration-300 ${
           !openProfile &&
@@ -117,6 +120,7 @@ export const MobileNavigation = () => {
           }}
         />
       </div>
+
 
       <div className="bg-mobileBg flex justify-between items-center py-[18px] px-[27px] fixed bottom-0 left-0 right-0">
         <div className="flex flex-col"

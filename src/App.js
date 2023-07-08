@@ -27,6 +27,7 @@ import Paybackamount from './Pages/Payback/Paybackamount';
 import Allusers from './Pages/Allusers/Alluser'
 import Airtime from './Pages/Airtime/Airtime';
 import Confirm from './Pages/Airtime/confirm';
+import Utility from './components/subm/Utility';
 
 
 const App = () => {
@@ -68,6 +69,8 @@ const App = () => {
         <Route path="/allUsers" element={<Allusers />}/>
         <Route path="/airtime" element={<Airtime />} />
         <Route path="Confirm" element={<Confirm />} />
+        <Route path="/Utility" element={<Utility/>}></Route>
+
     </Routes>
   );
 };

@@ -4,6 +4,8 @@ import TransactionTable from "./TransactionTable";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faNairaSign } from '@fortawesome/free-solid-svg-icons'
 
+import Mtrx from "./Mtrx";
+
 
 const Card = ({ text, amount, img }) => {
   return (
@@ -74,13 +76,19 @@ const MobileDashboard = ({ userData }) => {
           />
         </div>
       </div>
-
-      <div className="lg:w-1/3 bg-white rounded-lg shadow-lg p-8 rounded-t-[30px] h-full">
-        <TransactionTable showAll={true} n={10} />
+      <Mtrx/>
         <MobileNavigation />
-      </div>
+
+      {/* <div className=" bg-white  shadow-lg p-4 rounded-t-[20px]   w-full ">
+        <TransactionTable showAll={true} n={10} />
+        
+       
+      </div> */}
     </div>
   );
 };
 
 export default MobileDashboard;
+
+
+
